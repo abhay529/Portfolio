@@ -65,7 +65,6 @@ const About = () => {
                 <div>
                   <h4>Location</h4>
                   <p>Kannur, Kerala</p>
-                  <small>Currently in Pala</small>
                 </div>
               </div>
             </div>

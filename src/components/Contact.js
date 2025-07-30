@@ -40,8 +40,8 @@ const Contact = () => {
     {
       icon: FaMapMarkerAlt,
       label: 'Location',
-      value: 'Kannur, Kerala (Currently in Pala)',
-      link: null
+      value: 'Kannur, Kerala, India',
+      link: 'https://maps.app.goo.gl/Rr5mPECkoFMWxSes6'
     }
   ];
 

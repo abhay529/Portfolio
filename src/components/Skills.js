@@ -11,7 +11,7 @@ const Skills = () => {
     { name: 'Python', level: 25, category: 'Programming' },
     { name: 'MATLAB', level: 25, category: 'Engineering' },
     { name: 'Bootstrap', level: 40, category: 'Frontend' },
-    { name: 'IoT (ESP8266)', level: 55, category: 'Hardware' }
+    { name: 'IoT (ESP8266)', level: 45, category: 'Hardware' }
   ];
 
   const softSkills = [
