@@ -1,6 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+
+// Move constants outside component to prevent re-creation on every render
+const DIFFICULTY_SETTINGS = {
+    EASY: { speed: 7, spawnRate: 110, label: 'CHILL' },
+    INTERMEDIATE: { speed: 10, spawnRate: 85, label: 'STANDARD' },
+    HARD: { speed: 14, spawnRate: 60, label: 'HARD' },
+    EXTREME: { speed: 18, spawnRate: 45, label: 'CHAOS' }
+};
 
 const GamePage = () => {
     const canvasRef = useRef(null);
@@ -9,7 +17,7 @@ const GamePage = () => {
     const [gameState, setGameState] = useState('MENU');
     const [difficulty, setDifficulty] = useState('INTERMEDIATE');
     const animationFrameRef = useRef(null);
-    const gameStateRef = useRef('MENU'); // Track current game state for event listeners
+    const gameStateRef = useRef('MENU');
 
     // Portfolio Theme Colors
     const THEME = {
@@ -33,14 +41,23 @@ const GamePage = () => {
         spawnRate: 90
     });
 
-    const difficultySettings = {
-        EASY: { speed: 7, spawnRate: 110, label: 'CHILL' },
-        INTERMEDIATE: { speed: 10, spawnRate: 85, label: 'STANDARD' },
-        HARD: { speed: 14, spawnRate: 60, label: 'HARD' },
-        EXTREME: { speed: 18, spawnRate: 45, label: 'CHAOS' }
-    };
+    // Define handleGameOver FIRST (before gameLoop uses it)
+    const handleGameOver = useCallback(() => {
+        if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current);
+        }
+        
+        setGameState('GAMEOVER');
+        gameStateRef.current = 'GAMEOVER';
+        
+        if (gameRef.current.score > highScore) {
+            setHighScore(gameRef.current.score);
+            localStorage.setItem('dinoHighScore', gameRef.current.score);
+        }
+    }, [highScore]);
 
-    const gameLoop = () => {
+    // Game loop with proper dependencies
+    const gameLoop = useCallback(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -119,16 +136,15 @@ const GamePage = () => {
         });
 
         // Continue loop only if playing
-        if (gameState === 'PLAYING') {
+        if (gameStateRef.current === 'PLAYING') {
             animationFrameRef.current = requestAnimationFrame(gameLoop);
         }
-    };
+    }, [handleGameOver, THEME.bg, THEME.text, THEME.player, THEME.obstacle]);
 
-    const startGame = (selectedDifficulty) => {
+    const startGame = useCallback((selectedDifficulty) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        // Cancel any existing animation frame
         if (animationFrameRef.current) {
             cancelAnimationFrame(animationFrameRef.current);
         }
@@ -136,11 +152,10 @@ const GamePage = () => {
         setDifficulty(selectedDifficulty);
         setScore(0);
         
-        const settings = difficultySettings[selectedDifficulty];
+        const settings = DIFFICULTY_SETTINGS[selectedDifficulty];
         const HEIGHT = canvas.height;
         const GROUND_Y = HEIGHT * 0.75;
 
-        // Reset game state
         gameRef.current = {
             player: { y: GROUND_Y, dy: 0, grounded: true, jumpCount: 0 },
             obstacles: [],
@@ -152,32 +167,16 @@ const GamePage = () => {
             spawnRate: settings.spawnRate
         };
 
-        // Set state AFTER resetting game
         setGameState('PLAYING');
-        gameStateRef.current = 'PLAYING'; // Update ref too
-    };
+        gameStateRef.current = 'PLAYING';
+    }, []);
 
-    const handleGameOver = () => {
-        if (animationFrameRef.current) {
-            cancelAnimationFrame(animationFrameRef.current);
-        }
-        
-        setGameState('GAMEOVER');
-        gameStateRef.current = 'GAMEOVER'; // Update ref too
-        
-        if (gameRef.current.score > highScore) {
-            setHighScore(gameRef.current.score);
-            localStorage.setItem('dinoHighScore', gameRef.current.score);
-        }
-    };
-
-    const handleInput = (e) => {
+    const handleInput = useCallback((e) => {
         if ((e.type === 'keydown' && (e.code === 'Space' || e.code === 'ArrowUp')) || 
             e.type === 'mousedown' || e.type === 'touchstart') {
             
             if (e.type === 'touchstart') e.preventDefault();
             
-            // Use ref to get current game state
             if (gameStateRef.current === 'PLAYING') {
                 const state = gameRef.current;
                 if (state.player.grounded || state.player.jumpCount < 2) {
@@ -187,14 +186,14 @@ const GamePage = () => {
                 }
             }
         }
-    };
+    }, []);
 
     // Start game loop when state changes to PLAYING
     useEffect(() => {
         if (gameState === 'PLAYING') {
             gameLoop();
         }
-    }, [gameState]);
+    }, [gameState, gameLoop]);
 
     // Setup canvas and event listeners
     useEffect(() => {
@@ -223,7 +222,7 @@ const GamePage = () => {
             window.removeEventListener('touchstart', handleInput);
             window.removeEventListener('resize', handleResize);
         };
-    }, []);
+    }, [handleInput]);
 
     return (
         <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', background: THEME.bg }}>
@@ -300,7 +299,7 @@ const GamePage = () => {
                                     e.target.style.color = THEME.text; 
                                 }}
                             >
-                                {difficultySettings[level].label}
+                                {DIFFICULTY_SETTINGS[level].label}
                             </button>
                         ))}
                     </div>
@@ -365,7 +364,10 @@ const GamePage = () => {
                             RETRY
                         </button>
                         <button 
-                            onClick={() => setGameState('MENU')} 
+                            onClick={() => {
+                                setGameState('MENU');
+                                gameStateRef.current = 'MENU';
+                            }} 
                             style={{
                                 background: 'transparent', 
                                 color: THEME.text, 
