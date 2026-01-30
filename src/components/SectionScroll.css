@@ -1,0 +1,92 @@
+.minimal-sidebar-container {
+    position: fixed;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 200px;
+    width: auto;
+    z-index: 9990;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    pointer-events: auto;
+}
+
+.minimal-rail-wrap {
+    position: relative;
+    height: 100%;
+    width: 2px;
+    display: flex;
+    justify-content: center;
+}
+
+.minimal-rail-bg {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--text-secondary);
+    opacity: 0.1;
+    border-radius: 2px;
+}
+
+.minimal-rail-fill {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--text-primary);
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(0, 31, 61, 0.2);
+}
+
+.minimal-nodes-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.minimal-node-item {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+
+.minimal-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--text-secondary);
+    opacity: 0.4;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.minimal-node-item.active .minimal-dot {
+    background: var(--text-primary);
+    scale: 1.5;
+    box-shadow: 0 0 10px rgba(0, 31, 61, 0.4);
+}
+
+.minimal-label {
+    position: absolute;
+    right: 15px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .minimal-sidebar-container {
+        display: none;
+    }
+}

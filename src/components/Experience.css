@@ -1,185 +1,382 @@
-.experience-content {
+.experience-modern {
+  padding: 100px 20px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.experience-container {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.experience-header-ui {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.experience-grid-main {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
   gap: 60px;
 }
 
-.experience-section h3,
-.ieee-section h3,
-.certifications-section h3 {
-  color: #00bcd4;
-  font-size: 1.5rem;
-  margin-bottom: 30px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.timeline {
-  position: relative;
-  padding-left: 30px;
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 15px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(to bottom, #00bcd4, transparent);
-}
-
-.timeline-item {
-  position: relative;
+.section-label-cyber {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  letter-spacing: 3px;
   margin-bottom: 40px;
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
+  padding-left: 20px;
+  border-left: 3px solid var(--text-primary);
 }
 
-.timeline-marker {
+/* Chrono Stripes Layout */
+.experience-chrono-wrap {
+  position: relative;
+}
+
+.chrono-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.chrono-item {
+  position: relative;
+  display: flex;
+  gap: 30px;
+  padding: 40px;
+  background: var(--bg-color);
+  border: 1px solid var(--text-secondary);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 180px;
+}
+
+.chrono-year-bg {
   position: absolute;
-  left: -22px;
-  top: 0;
-  width: 44px;
-  height: 44px;
-  background: #00bcd4;
-  border-radius: 50%;
+  left: -20px;
+  bottom: -40px;
+  font-size: 14rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  opacity: 0.04;
+  pointer-events: none;
+  font-family: 'Artega', sans-serif;
+  line-height: 1;
+  z-index: 1;
+}
+
+.chrono-indicator {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  color: #0a0a0b;
-  font-size: 1.2rem;
-  border: 4px solid #0a0a0b;
+  padding-top: 5px;
+  position: relative;
+  z-index: 2;
 }
 
-.timeline-content {
-  background: rgba(26, 26, 27, 0.6);
-  border: 1px solid rgba(0, 188, 212, 0.2);
-  border-radius: 12px;
-  padding: 25px;
-  flex: 1;
-  transition: all 0.3s ease;
+.chrono-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--text-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(0, 31, 61, 0.2);
 }
 
-.timeline-content:hover {
-  border-color: rgba(0, 188, 212, 0.4);
-  background: rgba(26, 26, 27, 0.8);
+.chrono-line-segment {
+  width: 1px;
+  flex-grow: 1;
+  background: var(--text-secondary);
+  opacity: 0.1;
+  margin-top: 10px;
 }
 
-.timeline-content h4 {
-  color: #ffffff;
-  font-size: 1.2rem;
-  margin-bottom: 8px;
+.chrono-content {
+  flex-grow: 1;
+  position: relative;
+  z-index: 2;
 }
 
-.company {
-  color: #00bcd4;
-  font-weight: 600;
-  margin-bottom: 5px;
+.chrono-date-tag {
+  font-family: monospace;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  display: block;
 }
 
-.duration {
-  color: #b0b0b0;
-  font-size: 0.9rem;
-  margin-bottom: 12px;
-}
-
-.description {
-  color: #b0b0b0;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.roles-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+.chrono-header {
+  display: flex;
   gap: 20px;
-}
-
-.role-card {
-  background: rgba(26, 26, 27, 0.6);
-  border: 1px solid rgba(0, 188, 212, 0.2);
-  border-radius: 12px;
-  padding: 25px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.role-card:hover {
-  border-color: rgba(0, 188, 212, 0.4);
-  background: rgba(26, 26, 27, 0.8);
-}
-
-.role-icon {
-  font-size: 2rem;
-  color: #00bcd4;
+  align-items: center;
   margin-bottom: 15px;
 }
 
-.role-card h4 {
-  color: #ffffff;
-  margin-bottom: 8px;
+.chrono-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--text-primary);
+  color: var(--bg-color);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.1rem;
 }
 
-.role-card p {
-  color: #b0b0b0;
-  margin: 0;
-  font-size: 0.9rem;
+.chrono-title-group h4 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  font-weight: 800;
+  margin-bottom: 2px;
 }
 
-.certifications-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 15px;
+.chrono-company {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 600;
 }
 
-.cert-item {
+.chrono-content p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+  max-width: 90%;
+  opacity: 0.9;
+}
+
+.chrono-item:hover {
+  transform: scale(1.01);
+  border-color: var(--text-primary);
+  box-shadow: 0 20px 50px rgba(0, 31, 61, 0.05);
+}
+
+.chrono-item:hover .chrono-year-bg {
+  opacity: 0.07;
+  transform: translateX(10px);
+  transition: all 0.6s ease;
+}
+
+.chrono-item:hover .chrono-icon {
+  background: var(--accent-color);
+  color: var(--text-primary);
+  transform: rotate(-3deg) scale(1.1);
+}
+
+/* Tactical Ledger Sidebar REDESIGN */
+.roles-stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-left: 15px;
+}
+
+.signal-line-vertical {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: repeating-linear-gradient(to bottom,
+      var(--text-primary) 0%,
+      var(--text-primary) 5px,
+      transparent 5px,
+      transparent 10px);
+  opacity: 0.2;
+}
+
+.tactical-node-card {
+  position: relative;
+  background: var(--bg-color);
+  border: 1px solid var(--text-secondary);
+  border-radius: 4px;
+  padding: 15px;
+  clip-path: polygon(0% 0%,
+      100% 0%,
+      100% calc(100% - 15px),
+      calc(100% - 15px) 100%,
+      0% 100%);
   display: flex;
   align-items: center;
   gap: 15px;
-  background: rgba(26, 26, 27, 0.4);
-  border: 1px solid rgba(0, 188, 212, 0.1);
-  border-radius: 8px;
-  padding: 15px 20px;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0, 31, 61, 0.03);
 }
 
-.cert-item:hover {
-  border-color: rgba(0, 188, 212, 0.3);
-  background: rgba(26, 26, 27, 0.6);
+.tactical-node-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+      transparent 0%,
+      var(--text-primary) 50%,
+      transparent 100%);
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+  z-index: 5;
 }
 
-.cert-icon {
-  color: #00bcd4;
+.tactical-node-card:hover::after {
+  animation: tactical-scan 1.5s infinite;
+  opacity: 0.05;
+}
+
+@keyframes tactical-scan {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.node-port {
+  position: absolute;
+  left: -19px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: var(--bg-color);
+  border: 1px solid var(--text-primary);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.node-id {
+  font-family: monospace;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  opacity: 0.3;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  padding-right: 15px;
+  border-right: 1px solid rgba(0, 31, 61, 0.1);
+}
+
+.node-content-main {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-grow: 1;
+}
+
+.node-icon-hex {
+  width: 40px;
+  height: 40px;
+  background: var(--accent-color);
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.node-data-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.role-title-main {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+.role-date-tag {
+  font-family: monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.tactical-node-card:hover {
+  border-color: var(--text-primary);
+  transform: scale(1.02);
+  box-shadow: 0 15px 40px rgba(0, 31, 61, 0.08);
+}
+
+.mini-icon {
   font-size: 1.2rem;
-  flex-shrink: 0;
+  color: var(--text-primary);
+  width: 40px;
+  height: 40px;
+  background: var(--accent-color);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.cert-item span {
-  color: #b0b0b0;
-  font-size: 0.95rem;
+.mini-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.r-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.r-date {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+/* Certs Badge Grid */
+.certs-badge-grid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cert-badge {
+  background: var(--bg-color);
+  border: 1px solid var(--text-secondary);
+  padding: 10px 18px;
+  border-radius: 4px;
+  clip-path: polygon(0 0, 100% 0, 100% 75%, 85% 100%, 0 100%);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 5px 15px rgba(0, 31, 61, 0.02);
+}
+
+.cert-badge svg {
+  color: var(--text-primary);
+}
+
+.cert-badge:hover {
+  border-color: var(--text-primary);
+  background: var(--accent-color);
+  transform: translateY(-3px) skewX(-2deg);
+}
+
+@media (max-width: 1024px) {
+  .experience-grid-main {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-  .timeline {
-    padding-left: 20px;
-  }
-  
-  .timeline-marker {
-    left: -17px;
-    width: 34px;
-    height: 34px;
-    font-size: 1rem;
-  }
-  
-  .roles-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .certifications-grid {
-    grid-template-columns: 1fr;
+  .modern-title {
+    font-size: 2.5rem;
   }
 }

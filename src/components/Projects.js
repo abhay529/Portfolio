@@ -1,158 +1,213 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FaExternalLinkAlt, FaGithub, FaEye } from 'react-icons/fa';
+import { FaArrowRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './Projects.css';
 
-const Projects = () => {
-  const projects = [
+const projects = [
     {
-      title: 'AI Face Detection Attendance System',
-      description:
-        'Developed an intelligent attendance system using Raspberry Pi with AI-powered face detection technology. This system automates attendance tracking in classrooms, enhancing efficiency and accuracy.',
-      technologies: ['Raspberry Pi', 'Python', 'OpenCV', 'AI/ML'],
-      category: 'Mini Project',
+      id: '01',
+      title: 'AI Face Attendance',
+      description: 'Automated attendance system using face recognition on Raspberry Pi 3. Features real-time logging and admin dashboard.',
+      technologies: ['Python', 'OpenCV', 'Raspberry Pi'],
+      category: 'AI / IoT',
+      color: '#16a34a',
       status: 'Completed',
       liveLink: 'https://github.com/abhay529/AI_Face_Attendance_system_usingPi3.git',
     },
     {
-      title: 'VeloCart - eCommerce App',
-      description:
-        'Designed a comprehensive UI/UX for an e-commerce application with intuitive user flows and modern interface design. This project showcases my skills in creating user-friendly e-commerce solutions.',
-      technologies: ['Figma', 'UI/UX Design', 'Prototyping'],
-      category: 'UI/UX Design',
-      status: 'Completed',
-      liveLink:
-        'https://www.figma.com/proto/qP0KBOW5WWwycx8goA489r/Works?page-id=0%3A1&node-id=3-26135&viewport=4789%2C2106%2C0.2&t=aWmQpthZecIbND2c-1&scaling=contain&content-scaling=fixed&starting-point-node-id=3%3A26127&show-proto-sidebar=1',
+      id: '02',
+      title: 'Smart Blind Stick',
+      description: 'Sensor-based assistive device to enhance mobility for visually impaired users. Detects obstacles and water.',
+      technologies: ['Raspberry Pi 5', 'Lidar', 'Sensors'],
+      category: 'Hardware',
+      color: '#f97316',
+      status: 'Ongoing',
+      liveLink: '#',
     },
     {
-      title: 'Neuromesh Website',
-      description:
-        'Created during IoT & Web Design internship at IIIT Kottayam. Complete website design and development using modern web technologies. This project showcases my skills in web design and IoT integration.',
-      technologies: ['Figma', 'Web Design', 'ESP8266', 'IoT'],
-      category: 'Internship Project',
-      status: 'Completed',
-      liveLink:
-        'https://www.figma.com/proto/qP0KBOW5WWwycx8goA489r/Works?page-id=219%3A287&node-id=433-5132&viewport=-2218%2C136%2C0.11&t=ZGlhoPlU4jJGro8K-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=433%3A5132&show-proto-sidebar=1',
-    },
-    // New projects
-    {
-      title: 'Seminar: Neuromorphic Retina on FPGA',
-      description:
-        'Presented a seminar based on a research paper about neuromorphic retina systems implemented on FPGA hardware, focusing on innovative hardware neural network designs for visual processing.',
-      technologies: ['FPGA', 'Neuromorphic Engineering', 'Research', 'Presentation'],
+      id: '03',
+      title: 'Retina Emulator',
+      description: 'FPGA-based neuromorphic retina emulator mimicking biological vision systems for high-speed edge processing.',
+      technologies: ['FPGA','Verilog'],
       category: 'Seminar',
+      color: '#7c3aed',
+      status: 'Completed',
+      liveLink: 'https://drive.google.com/file/d/1lnBrrftWvFB_D6TeBnZzwcru30I4hTTd/view',
+    },
+    {
+      id: '04',
+      title: 'SPANDANAM Fest',
+      description: 'Official College Arts Festival website with event schedules, registration, and live score updates.',
+      technologies: ['Figma'],
+      category: 'Web Dev',
+      color: '#db2777',
+      status: 'Live',
+      liveLink: 'https://www.spandanam.online/',
+    },
+    {
+      id: '05',
+      title: 'Neuromesh IoT',
+      description: 'Centralized dashboard for monitoring ESP8266 devices. Visualizes real-time sensor data with charts.',
+      technologies: ['IoT', 'React', 'Chart.js'],
+      category: 'Internship',
+      color: '#9333ea',
+      status: 'Completed',
+      liveLink: 'https://www.figma.com/proto/qP0KBOW5WWwycx8goA489r/Works?page-id=219%3A287&node-id=433-5132',
+    },
+    {
+      id: '06',
+      title: 'NASA Space Apps',
+      description: 'Hackathon solution analyzing open NASA datasets to solve space exploration challenges.',
+      technologies: ['Data Analysis', 'Python'],
+      category: 'Hackathon',
+      color: '#2563eb',
       status: 'Completed',
       liveLink: '#',
     },
     {
-      title: 'Fresha - Freelance UI/UX Project',
-      description:
-        'Designed an intuitive and visually appealing UI/UX for a pedicure manicure booking app, focusing on seamless user experience for appointment scheduling and service discovery.',
-      technologies: ['Figma', 'UI/UX Design', 'Prototyping'],
-      category: 'Freelance Project',
-      status: 'Completed',
-      liveLink: 'https://www.figma.com/proto/qP0KBOW5WWwycx8goA489r/Works?page-id=0%3A1&node-id=3-28397&viewport=1854%2C1228%2C0.12&t=ETXdE7q2N1OEsztK-1&scaling=contain&content-scaling=fixed&starting-point-node-id=3%3A28579&show-proto-sidebar=1',
+      id: '07',
+      title: 'VeloCart App',
+      description: 'eCommerce payment app UI study focusing on smooth user journey and conversion optimization.',
+      technologies: ['Figma', 'UX Research'],
+      category: 'Case Study',
+      color: '#ea580c',
+      status: 'Compleated',
+      liveLink: 'https://www.figma.com/proto/qP0KBOW5WWwycx8goA489r/Works?page-id=0%3A1&node-id=3-26135',
     },
     {
-      title: 'Apple Airpod Clone - Micro Interaction Study',
-      description:
-        'Created a detailed Figma prototype clone of Apple Airpods focusing on micro interactions to study user engagement and interface animation.',
-      technologies: ['Figma', 'UI/UX Design', 'Micro Interaction'],
-      category: 'Study Project',
-      status: 'Completed',
-      liveLink: 'https://www.figma.com/proto/qP0KBOW5WWwycx8goA489r/Works?page-id=0%3A1&node-id=3-32836&viewport=379%2C478%2C0.03&t=Fr3q3isXfCjVylVR-1&scaling=contain&content-scaling=fixed&starting-point-node-id=3%3A32621&show-proto-sidebar=1',
+      id: '08',
+      title: 'Synera Mail',
+      description: 'Cloud email automation platform for startups. Scaling backend architecture with FastAPI.',
+      technologies: ['FastAPI', 'Figma', 'LinkedIn'],
+      category: 'Startup',
+      color: '#0d9488',
+      status: 'Building',
+      liveLink: '#',
     },
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2,
-      },
+    {
+      id: '09',
+      title: 'AGNITUS Techfest',
+      description: 'Official website for the 2026 college technical festival. Modern, interactive, and responsive.',
+      technologies: ['Web', 'Figma', 'React'],
+      category: 'Tech Website',
+      color: '#e11d48',
+      status: 'Coming Soon',
+      liveLink: '#',
     },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5 },
+    {
+      id: '10',
+      title: 'AirPods Clone',
+      description: 'Immersive product landing page design for premium audio gear with 3D scrolling effects.',
+      technologies: ['Microanimation', 'Figma','parallax'],
+      category: 'Clone',
+      color: '#0ea5e9',
+      status: 'Compleated',
+      liveLink: '#',
     },
-  };
+];
 
-  return (
-    <section id="projects" className="section">
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        <motion.h2 className="section-title" variants={itemVariants}>
-          Featured Projects
-        </motion.h2>
-
-        <div className="projects-grid">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              className="project-card"
-              variants={itemVariants}
-              whileHover={{ y: -10, scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            >
-              <div className="project-header">
-                <div className="project-category">{project.category}</div>
-                <div
-                  className={`project-status ${project.status
-                    .toLowerCase()
-                    .replace(' ', '-')}`}
-                >
-                  {project.status}
+const ProjectCard = ({ project }) => {
+    return (
+        <motion.div 
+            className="crystal-card-2d"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            style={{ '--accent': project.color }}
+        >
+            {/* Visual Top Half */}
+            <div className="card-vis-top">
+                <div className="vis-glow" style={{ background: project.color }}></div>
+                <div className="cat-pill">{project.category}</div>
+                
+                {/* Status Badge */}
+                <div className="status-badge" style={{ color: project.color, borderColor: project.color }}>
+                    {project.status}
                 </div>
-              </div>
+            </div>
 
-              <h3 className="project-title">{project.title}</h3>
-              <p className="project-description">{project.description}</p>
+            {/* Content Bottom Half */}
+            <div className="card-content">
+                <div className="card-header">
+                    <span className="id-num">{project.id}</span>
+                    <h3>{project.title}</h3>
+                </div>
+                
+                <p>{project.description}</p>
 
-              <div className="project-technologies">
-                {project.technologies.map((tech, techIndex) => (
-                  <span key={techIndex} className="tech-tag">
-                    {tech}
-                  </span>
-                ))}
-              </div>
+                <div className="tech-tags">
+                    {project.technologies.map((tech, i) => (
+                        <span key={i} className="tech-tag">{tech}</span>
+                    ))}
+                </div>
 
-              <div className="project-actions">
-                <motion.a
-                  href={project.liveLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="action-btn"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <FaEye /> View Site
-                </motion.a>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.div className="projects-note" variants={itemVariants}>
-          <p>
-            🚀 More projects and detailed case studies coming soon! Currently
-            working on enhancing existing projects and developing new innovative
-            solutions.
-          </p>
+                <div className="card-actions">
+                    <a href={project.liveLink} target="_blank" rel="noreferrer" className="action-link">
+                        View Project <FaArrowRight className="icon" />
+                    </a>
+                </div>
+            </div>
         </motion.div>
-      </motion.div>
-    </section>
-  );
+    );
 };
 
-export default Projects;
+const Projects = () => {
+    const containerRef = useRef(null);
+  
+    const scrollLeft = () => {
+      if (containerRef.current) {
+          containerRef.current.scrollBy({ left: -400, behavior: 'smooth' });
+      }
+    };
+  
+    const scrollRight = () => {
+      if (containerRef.current) {
+          containerRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+      }
+    };
+  
+    return (
+      <section id="projects" className="projects-2d-section">
+        <div className="section-header">
+          <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+          >
+              Selected Works
+          </motion.h2>
+          <p>A collection of technical projects, designs, and experiments.</p>
+        </div>
+  
+        <div className="gallery-wrapper">
+            {/* Left Button */}
+            <button className="scroll-btn left" onClick={scrollLeft} aria-label="Scroll Left">
+              <FaChevronLeft />
+            </button>
+  
+            <div className="gallery-scroll-container" ref={containerRef}>
+              <div className="gallery-track">
+                  {projects.map((project) => (
+                      <ProjectCard key={project.id} project={project} />
+                  ))}
+                  
+                  <div className="spacer-end"></div>
+              </div>
+            </div>
+  
+            {/* Right Button */}
+            <button className="scroll-btn right" onClick={scrollRight} aria-label="Scroll Right">
+              <FaChevronRight />
+            </button>
+        </div>
+        
+        <div className="scroll-hint">
+          <span>Scroll or drag to explore</span>
+          <div className="scroll-line"></div>
+        </div>
+      </section>
+    );
+  };
+  
+  export default Projects;
