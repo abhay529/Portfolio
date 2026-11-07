@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from './components/Hero';
@@ -10,11 +10,12 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import NotFound from './components/NotFound';
 import GamePage from './components/GamePage';
-import './App.css';
-import './styles/background.css';
+import SplashScreen from './components/SplashScreen';
 import AnimatedBackground from './components/AnimatedBackground';
 import CustomCursor from './components/CustomCursor';
 import SectionScroll from './components/SectionScroll';
+import './App.css';
+import './styles/background.css';
 
 const Home = () => (
   <div className="App">
@@ -37,8 +38,11 @@ const Home = () => (
 );
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <Router>
+      {isLoading && <SplashScreen onFinish={() => setIsLoading(false)} />}
       <CustomCursor />
       <Routes>
         <Route path="/" element={<Home />} />

@@ -1,0 +1,612 @@
+/* ===== GamePage.css — Minimalist Hangman Word Odyssey ===== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap');
+
+:root {
+  --hm-bg: #F9F7F1;
+  --hm-surface: #FFFFFF;
+  --hm-ink: #11141A;
+  --hm-muted: #64748B;
+  --hm-border: #11141A;
+  --hm-accent: #FF5500;
+  --hm-correct: #10B981;
+  --hm-wrong: #EF4444;
+  --hm-yellow: #FFD600;
+  --hm-font-title: 'Space Grotesk', -apple-system, sans-serif;
+  --hm-font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Page Container */
+.hangman-universe {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: var(--hm-bg);
+  color: var(--hm-ink);
+  font-family: var(--hm-font-title);
+  overflow-x: hidden;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ====================================================
+   3D HOLOGRAPHIC GAME ENGINE (WebGL Canvas Backdrop)
+   ==================================================== */
+.game-3d-canvas-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Top Minimal Header */
+.hangman-top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 3rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 2.5px solid var(--hm-border);
+  box-shadow: 0 4px 0 var(--hm-border);
+  z-index: 50;
+  position: relative;
+}
+
+.hm-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.hm-3d-badge {
+  font-family: var(--hm-font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.2rem 0.65rem;
+  background: #2563EB;
+  color: #FFFFFF;
+  border: 1.5px solid var(--hm-border);
+  border-radius: 99px;
+  box-shadow: 2px 2px 0 var(--hm-border);
+  animation: badge-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes badge-pulse {
+  from {
+    transform: scale(0.96);
+    box-shadow: 0 0 6px rgba(37, 99, 235, 0.4), 2px 2px 0 var(--hm-border);
+  }
+  to {
+    transform: scale(1.04);
+    box-shadow: 0 0 12px rgba(37, 99, 235, 0.7), 2px 2px 0 var(--hm-border);
+  }
+}
+
+.hm-brand-title {
+  font-family: var(--hm-font-title);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--hm-ink);
+}
+
+.hm-brand-title span {
+  color: var(--hm-accent);
+}
+
+.hm-category-tag {
+  font-family: var(--hm-font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--hm-yellow);
+  color: var(--hm-ink);
+  padding: 0.25rem 0.65rem;
+  border: 1.5px solid var(--hm-border);
+  border-radius: 99px;
+  box-shadow: 2px 2px 0 var(--hm-border);
+}
+
+/* Right Nav Controls */
+.hm-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.hm-streak-pod {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--hm-font-mono);
+  font-size: 0.82rem;
+  font-weight: 800;
+  background: var(--hm-bg);
+  border: 2px solid var(--hm-border);
+  padding: 0.4rem 0.9rem;
+  border-radius: 99px;
+  box-shadow: 2px 2px 0 var(--hm-border);
+  transition: all 0.25s ease;
+}
+
+.hm-streak-pod.on-fire {
+  border-color: var(--hm-accent);
+  background: #FFF7ED;
+  box-shadow: 0 0 14px rgba(255, 85, 0, 0.4), 2px 2px 0 var(--hm-border);
+  animation: flame-pulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes flame-pulse {
+  from {
+    transform: scale(0.98);
+  }
+  to {
+    transform: scale(1.03);
+  }
+}
+
+.hm-icon-btn {
+  background: var(--hm-surface);
+  border: 2px solid var(--hm-border);
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--hm-border);
+  transition: all 0.15s ease;
+}
+
+.hm-icon-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--hm-border);
+}
+
+.hm-exit-btn {
+  font-family: var(--hm-font-mono);
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 0.45rem 1.1rem;
+  background: var(--hm-ink);
+  color: #FFFFFF;
+  border: 2px solid var(--hm-border);
+  border-radius: 99px;
+  text-decoration: none;
+  box-shadow: 2.5px 2.5px 0 var(--hm-border);
+  transition: all 0.15s ease;
+}
+
+.hm-exit-btn:hover {
+  background: var(--hm-accent);
+  color: #FFFFFF;
+  transform: translate(-1px, -1px);
+}
+
+/* ====================================================
+   MOBILE BLOCKED NOTICE (PC Only Keyboard Game)
+   ==================================================== */
+.hm-mobile-blocked {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .hm-mobile-blocked {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    background: var(--hm-bg);
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+  }
+
+  .hm-mobile-card {
+    background: var(--hm-surface);
+    border: 3px solid var(--hm-border);
+    padding: 2.5rem 1.5rem;
+    border-radius: 16px;
+    box-shadow: 6px 6px 0 var(--hm-border);
+    max-width: 420px;
+  }
+
+  .hm-mobile-icon {
+    font-size: 3rem;
+    color: var(--hm-accent);
+    margin-bottom: 1rem;
+  }
+
+  .hm-mobile-title {
+    font-family: var(--hm-font-title);
+    font-size: 1.45rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+  }
+
+  .hm-mobile-desc {
+    font-size: 0.95rem;
+    color: var(--hm-muted);
+    line-height: 1.55;
+    margin-bottom: 1.75rem;
+  }
+
+  .hm-mobile-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    background: var(--hm-ink);
+    color: #FFFFFF;
+    font-family: var(--hm-font-mono);
+    font-weight: 800;
+    border-radius: 99px;
+    text-decoration: none;
+    box-shadow: 3px 3px 0 var(--hm-border);
+  }
+}
+
+/* ====================================================
+   MAIN GAME STAGE
+   ==================================================== */
+.hangman-stage {
+  flex: 1;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Top Status Panel: Chances Counter & Hint */
+.hm-status-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 780px;
+  margin-bottom: 1.5rem;
+}
+
+.hm-chances-counter {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.hm-chances-label {
+  font-family: var(--hm-font-mono);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--hm-muted);
+}
+
+.hm-hearts-rack {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.chance-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--hm-border);
+  background: var(--hm-accent);
+  box-shadow: 1.5px 1.5px 0 var(--hm-border);
+  transition: all 0.25s ease;
+}
+
+.chance-dot.used {
+  background: #E2E8F0;
+  transform: scale(0.75);
+  box-shadow: none;
+}
+
+.chance-dot.lost-pulse {
+  animation: lost-pulse-anim 0.45s ease-out forwards;
+}
+
+@keyframes lost-pulse-anim {
+  0% { transform: scale(1.5); background: #EF4444; }
+  100% { transform: scale(0.75); background: #E2E8F0; }
+}
+
+.hm-chances-text {
+  font-family: var(--hm-font-mono);
+  font-weight: 800;
+  font-size: 0.84rem;
+  margin-left: 0.35rem;
+}
+
+.hm-clue-btn {
+  width: auto !important;
+  padding: 0 0.85rem !important;
+  gap: 0.45rem !important;
+  height: 36px !important;
+}
+
+.hm-clue-btn-text {
+  font-family: var(--hm-font-mono);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.hm-category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--hm-font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--hm-muted);
+}
+
+.hm-category-pill span {
+  color: var(--hm-ink);
+  font-weight: 800;
+}
+
+/* Center Hangman Canvas Stage */
+.hm-visual-stage {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  border: 3px solid var(--hm-border);
+  border-radius: 16px;
+  padding: 1.5rem 2.5rem;
+  box-shadow: 6px 6px 0 var(--hm-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 550px;
+  z-index: 10;
+}
+
+/* Tactical Corner Markers */
+.hm-tactical-corner {
+  position: absolute;
+  font-family: var(--hm-font-mono);
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--hm-muted);
+  opacity: 0.4;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.hm-tactical-corner.tl { top: 8px; left: 10px; }
+.hm-tactical-corner.tr { top: 8px; right: 10px; }
+.hm-tactical-corner.bl { bottom: 8px; left: 10px; }
+.hm-tactical-corner.br { bottom: 8px; right: 10px; }
+
+.hangman-svg-canvas {
+  width: 240px;
+  height: 220px;
+  display: block;
+}
+
+/* Hint Text Box */
+.hm-hint-banner {
+  font-family: var(--hm-font-mono);
+  font-size: 0.82rem;
+  color: var(--hm-muted);
+  text-align: center;
+  margin-top: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--hm-bg);
+  border-radius: 6px;
+  border: 1px dashed var(--hm-border);
+}
+
+/* Word Blanks Stage */
+.hm-word-stage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  margin: 1.5rem 0 2rem 0;
+  max-width: 800px;
+}
+
+.hm-letter-slot {
+  width: 48px;
+  height: 56px;
+  background: var(--hm-surface);
+  border: 2.5px solid var(--hm-border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--hm-font-mono);
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--hm-ink);
+  box-shadow: 3.5px 3.5px 0 var(--hm-border);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hm-letter-slot.revealed {
+  background: var(--hm-yellow);
+  transform: translateY(-3px);
+  box-shadow: 5px 5px 0 var(--hm-border);
+}
+
+.hm-letter-slot.space {
+  width: 20px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Interactive Keyboard (A to Z) */
+.hm-keyboard-deck {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  max-width: 720px;
+}
+
+.hm-keyboard-row {
+  display: flex;
+  gap: 0.45rem;
+  justify-content: center;
+}
+
+.hm-key-btn {
+  width: 42px;
+  height: 48px;
+  background: var(--hm-surface);
+  border: 2px solid var(--hm-border);
+  border-radius: 8px;
+  font-family: var(--hm-font-mono);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--hm-ink);
+  cursor: pointer;
+  box-shadow: 2.5px 2.5px 0 var(--hm-border);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hm-key-btn:hover:not(:disabled) {
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 4px 4px 0 var(--hm-border);
+  background: var(--hm-yellow);
+}
+
+.hm-key-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--hm-border);
+}
+
+.hm-key-btn.correct {
+  background: var(--hm-correct);
+  color: #FFFFFF;
+  border-color: var(--hm-border);
+  cursor: default;
+  opacity: 0.9;
+  transform: none;
+  box-shadow: 1px 1px 0 var(--hm-border);
+}
+
+.hm-key-btn.wrong {
+  background: #E2E8F0;
+  color: #94A3B8;
+  border-color: #CBD5E1;
+  cursor: not-allowed;
+  opacity: 0.5;
+  box-shadow: none;
+  transform: none;
+  text-decoration: line-through;
+}
+
+/* ====================================================
+   RESULT MODAL (VICTORY OR DEFEAT)
+   ==================================================== */
+.hm-result-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 20, 26, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.hm-result-card {
+  background: var(--hm-surface);
+  border: 3.5px solid var(--hm-border);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 8px 8px 0 var(--hm-border);
+}
+
+.hm-result-title {
+  font-family: var(--hm-font-title);
+  font-size: 2.4rem;
+  font-weight: 900;
+  margin-bottom: 0.6rem;
+  line-height: 1.1;
+}
+
+.hm-result-title.win {
+  color: var(--hm-correct);
+}
+
+.hm-result-title.loss {
+  color: var(--hm-wrong);
+}
+
+.hm-word-reveal-box {
+  background: var(--hm-bg);
+  border: 2px solid var(--hm-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1.5rem 0 2rem 0;
+}
+
+.hm-word-reveal-label {
+  font-family: var(--hm-font-mono);
+  font-size: 0.72rem;
+  color: var(--hm-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.hm-word-reveal-target {
+  font-family: var(--hm-font-mono);
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: var(--hm-accent);
+  letter-spacing: 0.12em;
+}
+
+.hm-play-again-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 2.5rem;
+  background: var(--hm-ink);
+  color: #FFFFFF;
+  border: 2.5px solid var(--hm-border);
+  border-radius: 99px;
+  font-family: var(--hm-font-title);
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--hm-border);
+  transition: all 0.2s ease;
+}
+
+.hm-play-again-btn:hover {
+  background: var(--hm-accent);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--hm-border);
+}

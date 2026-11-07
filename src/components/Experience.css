@@ -1,382 +1,272 @@
-.experience-modern {
-  padding: 100px 20px;
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
+/* ===== Experience.css — High-Fashion Editorial Timeline ===== */
 
-.experience-container {
+.experience-editorial-section {
+  position: relative;
   width: 100%;
-  max-width: 1200px;
+  background: var(--paper-light);
+  color: var(--ink-black);
+  padding: 6rem 1.5rem 8rem 1.5rem;
+  border-top: 3px solid var(--ink-black);
+  border-bottom: 3px solid var(--ink-black);
 }
 
-.experience-header-ui {
-  text-align: center;
-  margin-bottom: 80px;
+@media (min-width: 768px) {
+  .experience-editorial-section {
+    padding: 8rem 3rem 10rem 3rem;
+  }
 }
 
-.experience-grid-main {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 60px;
+.experience-mashup-container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
 }
 
-.section-label-cyber {
-  font-family: monospace;
-  font-size: 0.75rem;
-  color: var(--text-primary);
-  letter-spacing: 3px;
-  margin-bottom: 40px;
-  padding-left: 20px;
-  border-left: 3px solid var(--text-primary);
-}
-
-/* Chrono Stripes Layout */
-.experience-chrono-wrap {
-  position: relative;
-}
-
-.chrono-list {
+/* Header */
+.exp-header-editorial {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 1rem;
+  margin-bottom: 4.5rem;
 }
 
-.chrono-item {
-  position: relative;
+@media (min-width: 768px) {
+  .exp-header-editorial {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
+.exp-eyebrow {
   display: flex;
-  gap: 30px;
-  padding: 40px;
-  background: var(--bg-color);
-  border: 1px solid var(--text-secondary);
-  border-radius: 20px;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  min-height: 180px;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.6rem;
 }
 
-.chrono-year-bg {
-  position: absolute;
-  left: -20px;
-  bottom: -40px;
-  font-size: 14rem;
+.exp-tag-pill {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  background: var(--pop-crimson);
+  color: #FFFFFF;
+  border-radius: var(--radius-pill);
+}
+
+.exp-main-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
   font-weight: 900;
-  color: var(--text-primary);
-  opacity: 0.04;
-  pointer-events: none;
-  font-family: 'Artega', sans-serif;
-  line-height: 1;
-  z-index: 1;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
 }
 
-.chrono-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 5px;
-  position: relative;
-  z-index: 2;
+.exp-main-title .accent-word {
+  color: var(--pop-cobalt);
 }
 
-.chrono-dot {
-  width: 12px;
-  height: 12px;
-  background: var(--text-primary);
-  border-radius: 50%;
-  box-shadow: 0 0 15px rgba(0, 31, 61, 0.2);
+/* 2-Column Editorial Grid */
+.exp-editorial-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.5rem;
 }
 
-.chrono-line-segment {
-  width: 1px;
-  flex-grow: 1;
-  background: var(--text-secondary);
-  opacity: 0.1;
-  margin-top: 10px;
-}
-
-.chrono-content {
-  flex-grow: 1;
-  position: relative;
-  z-index: 2;
-}
-
-.chrono-date-tag {
-  font-family: monospace;
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 20px;
-  display: block;
-}
-
-.chrono-header {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.chrono-icon {
-  width: 44px;
-  height: 44px;
-  background: var(--text-primary);
-  color: var(--bg-color);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-}
-
-.chrono-title-group h4 {
-  font-size: 1.5rem;
-  color: var(--text-primary);
-  font-weight: 800;
-  margin-bottom: 2px;
-}
-
-.chrono-company {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  font-weight: 600;
-}
-
-.chrono-content p {
-  color: var(--text-secondary);
-  line-height: 1.6;
-  font-size: 0.95rem;
-  max-width: 90%;
-  opacity: 0.9;
-}
-
-.chrono-item:hover {
-  transform: scale(1.01);
-  border-color: var(--text-primary);
-  box-shadow: 0 20px 50px rgba(0, 31, 61, 0.05);
-}
-
-.chrono-item:hover .chrono-year-bg {
-  opacity: 0.07;
-  transform: translateX(10px);
-  transition: all 0.6s ease;
-}
-
-.chrono-item:hover .chrono-icon {
-  background: var(--accent-color);
-  color: var(--text-primary);
-  transform: rotate(-3deg) scale(1.1);
-}
-
-/* Tactical Ledger Sidebar REDESIGN */
-.roles-stack {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding-left: 15px;
-}
-
-.signal-line-vertical {
-  position: absolute;
-  left: 0;
-  top: 10px;
-  bottom: 10px;
-  width: 1px;
-  background: repeating-linear-gradient(to bottom,
-      var(--text-primary) 0%,
-      var(--text-primary) 5px,
-      transparent 5px,
-      transparent 10px);
-  opacity: 0.2;
-}
-
-.tactical-node-card {
-  position: relative;
-  background: var(--bg-color);
-  border: 1px solid var(--text-secondary);
-  border-radius: 4px;
-  padding: 15px;
-  clip-path: polygon(0% 0%,
-      100% 0%,
-      100% calc(100% - 15px),
-      calc(100% - 15px) 100%,
-      0% 100%);
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 10px 30px rgba(0, 31, 61, 0.03);
-}
-
-.tactical-node-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom,
-      transparent 0%,
-      var(--text-primary) 50%,
-      transparent 100%);
-  opacity: 0;
-  transform: translateY(-100%);
-  pointer-events: none;
-  z-index: 5;
-}
-
-.tactical-node-card:hover::after {
-  animation: tactical-scan 1.5s infinite;
-  opacity: 0.05;
-}
-
-@keyframes tactical-scan {
-  0% {
-    transform: translateY(-100%);
-  }
-
-  100% {
-    transform: translateY(100%);
+@media (min-width: 900px) {
+  .exp-editorial-grid {
+    grid-template-columns: 1.2fr 0.8fr;
   }
 }
 
-.node-port {
-  position: absolute;
-  left: -19px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 8px;
-  height: 8px;
-  background: var(--bg-color);
-  border: 1px solid var(--text-primary);
-  border-radius: 50%;
-  z-index: 2;
-}
-
-.node-id {
-  font-family: monospace;
-  font-size: 0.65rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  opacity: 0.3;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  padding-right: 15px;
-  border-right: 1px solid rgba(0, 31, 61, 0.1);
-}
-
-.node-content-main {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  flex-grow: 1;
-}
-
-.node-icon-hex {
-  width: 40px;
-  height: 40px;
-  background: var(--accent-color);
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-primary);
-  font-size: 1.1rem;
-}
-
-.node-data-body {
+/* Left Column: Timeline Cards */
+.exp-timeline-column {
   display: flex;
   flex-direction: column;
+  gap: 2rem;
 }
 
-.role-title-main {
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: -0.3px;
+.exp-timeline-card {
+  background: #FFFFFF;
+  border: 2.5px solid var(--ink-black);
+  border-radius: var(--radius-lg);
+  padding: 2.2rem;
+  box-shadow: 6px 6px 0px var(--ink-black);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
 }
 
-.role-date-tag {
-  font-family: monospace;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--text-secondary);
-  opacity: 0.6;
+.exp-timeline-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0px var(--ink-black);
 }
 
-.tactical-node-card:hover {
-  border-color: var(--text-primary);
-  transform: scale(1.02);
-  box-shadow: 0 15px 40px rgba(0, 31, 61, 0.08);
-}
-
-.mini-icon {
-  font-size: 1.2rem;
-  color: var(--text-primary);
-  width: 40px;
-  height: 40px;
-  background: var(--accent-color);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mini-text {
+.timeline-card-header {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-.r-title {
-  font-size: 1rem;
+@media (min-width: 580px) {
+  .timeline-card-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+.timeline-role-title {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--ink-black);
+  line-height: 1.2;
+}
+
+.timeline-company-name {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--pop-cobalt);
+  margin-top: 0.25rem;
 }
 
-.r-date {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  opacity: 0.6;
-}
-
-/* Certs Badge Grid */
-.certs-badge-grid {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.cert-badge {
-  background: var(--bg-color);
-  border: 1px solid var(--text-secondary);
-  padding: 10px 18px;
-  border-radius: 4px;
-  clip-path: polygon(0 0, 100% 0, 100% 75%, 85% 100%, 0 100%);
+.timeline-duration-badge {
+  font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 800;
-  color: var(--text-primary);
+  padding: 0.25rem 0.65rem;
+  background: var(--paper-cream);
+  border: 1.5px solid var(--ink-black);
+  border-radius: var(--radius-pill);
+  color: var(--ink-black);
+  align-self: flex-start;
+}
+
+.timeline-role-desc {
+  font-size: 0.95rem;
+  color: var(--ink-secondary);
+  line-height: 1.6;
+}
+
+/* Right Column: IEEE & Certifications */
+.exp-side-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.side-feature-box {
+  background: #FFFFFF;
+  border: 2.5px solid var(--ink-black);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: 6px 6px 0px var(--ink-black);
+}
+
+.side-box-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--ink-black);
+  margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
-  gap: 10px;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 5px 15px rgba(0, 31, 61, 0.02);
+  gap: 0.6rem;
 }
 
-.cert-badge svg {
-  color: var(--text-primary);
+/* IEEE Roles List */
+.ieee-roles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
-.cert-badge:hover {
-  border-color: var(--text-primary);
-  background: var(--accent-color);
-  transform: translateY(-3px) skewX(-2deg);
+.ieee-role-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--paper-cream);
+  border: 1.5px solid var(--ink-black);
+  border-radius: var(--radius-md);
 }
 
-@media (max-width: 1024px) {
-  .experience-grid-main {
-    grid-template-columns: 1fr;
-  }
+.ieee-role-name {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--ink-black);
+}
+
+.ieee-role-period {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--pop-crimson);
+}
+
+/* Certification Stamp Cloud */
+.cert-stamps-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.cert-stamp {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.4rem 0.8rem;
+  background: #FFFFFF;
+  border: 1.5px solid var(--ink-black);
+  border-radius: var(--radius-sm);
+  color: var(--ink-black);
+  box-shadow: 2px 2px 0px var(--ink-black);
+  transition: transform 0.15s ease;
+}
+
+.cert-stamp:hover {
+  transform: translateY(-2px);
+  background: var(--pop-yellow);
 }
 
 @media (max-width: 768px) {
-  .modern-title {
-    font-size: 2.5rem;
+  .experience-editorial-section {
+    padding: 4.5rem 1rem 5.5rem 1rem;
+    overflow-x: hidden;
+  }
+
+  .exp-header-editorial {
+    margin-bottom: 2.5rem;
+  }
+
+  .exp-editorial-grid {
+    gap: 2rem;
+  }
+
+  .exp-timeline-card {
+    padding: 1.4rem 1.1rem;
+    border-width: 2px;
+    box-shadow: 4px 4px 0px var(--ink-black);
+  }
+
+  .timeline-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .timeline-period-stamp {
+    align-self: flex-start;
+  }
+
+  .exp-side-box {
+    padding: 1.4rem 1.1rem;
+    border-width: 2px;
+    box-shadow: 4px 4px 0px var(--ink-black);
   }
 }

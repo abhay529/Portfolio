@@ -1,0 +1,179 @@
+/* ===== SplashScreen.css — Minimalist 3D Spline Preloader ===== */
+
+.splash-screen-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--paper-cream, #F5F1E8);
+  color: var(--ink-black, #11141A);
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5rem 3rem;
+  overflow: hidden;
+  user-select: none;
+}
+
+@media (max-width: 768px) {
+  .splash-screen-overlay {
+    padding: 1.75rem 1.25rem;
+  }
+}
+
+/* ====================================================
+   TOP META BAR
+   ==================================================== */
+.splash-top-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.splash-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.splash-brand-dot {
+  width: 9px;
+  height: 9px;
+  background: var(--pop-orange, #FF5500);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 85, 0, 0.7);
+  animation: splash-dot-pulse 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes splash-dot-pulse {
+  from {
+    transform: scale(0.85);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+}
+
+.splash-brand-text {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--ink-black, #11141A);
+}
+
+.splash-status-pill {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.75rem;
+  background: #FFFFFF;
+  border: 1.5px solid var(--ink-black, #11141A);
+  border-radius: 99px;
+  box-shadow: 2px 2px 0 var(--ink-black, #11141A);
+  color: var(--ink-secondary, #3D3D42);
+}
+
+@media (max-width: 600px) {
+  .splash-status-pill {
+    display: none;
+  }
+}
+
+/* ====================================================
+   CENTER 3D CANVAS STAGE
+   ==================================================== */
+.splash-3d-stage {
+  flex: 1;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.splash-3d-stage canvas {
+  width: 100% !important;
+  height: 100% !important;
+  outline: none;
+}
+
+/* ====================================================
+   BOTTOM PERCENTAGE & PROGRESS DECK
+   ==================================================== */
+.splash-bottom-deck {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.splash-number-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.splash-prefix {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--ink-secondary, #64748B);
+  text-transform: uppercase;
+}
+
+.splash-counter {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: clamp(3.5rem, 9vw, 6.5rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--ink-black, #11141A);
+}
+
+/* Minimal Calibrated Progress Rail */
+.splash-progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(17, 20, 26, 0.08);
+  border: 1.5px solid var(--ink-black, #11141A);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 0.9rem;
+  box-shadow: 1.5px 1.5px 0 var(--ink-black, #11141A);
+}
+
+.splash-progress-fill {
+  height: 100%;
+  background: var(--pop-orange, #FF5500);
+  border-radius: 99px;
+  transition: width 0.08s ease-out;
+}
+
+.splash-sub-info {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--ink-secondary, #64748B);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+  .splash-sub-info span:last-child {
+    display: none;
+  }
+}

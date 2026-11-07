@@ -1,246 +1,376 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { IoCloseOutline } from 'react-icons/io5';
+import React, { useState, useEffect } from 'react';
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+} from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { IoCloseOutline } from 'react-icons/io5';
 import './Hero.css';
-import abhayImg from "../assets/Abhay.png";
+import abhayImg from '../assets/Abhay.png';
+import Hero3DCanvas from './Hero3DCanvas';
 
 const roles = [
-  "UI/UX DESIGNER",
   "ELECTRONICS ENGINEER",
-  "IOT ENTHUSIAST",
-  "PASSIONATE GAMER",
-  "CREATIVE DEVELOPER"
+  "GATE ASPIRANT",
+  "EMBEDDED & IOT",
+  "TECH EXPLORER"
 ];
 
 const menuItems = [
-  { name: "HOME", href: "#home", type: "hash" },
-  { name: "ABOUT", href: "#about", type: "hash" },
-  { name: "SKILLS", href: "#skills", type: "hash" },
-  { name: "EXPERIENCE", href: "#experience", type: "hash" },
-  { name: "PROJECTS", href: "#projects", type: "hash" },
-  { name: "CONTACT", href: "#contact", type: "hash" },
-  { name: "GAME", href: "/game", type: "route" },
-//   { name: "404 PAGE", href: "/notfound", type: "route" },
+  { name: "About", href: "#about", num: "01" },
+  { name: "Projects", href: "#projects", num: "02" },
+  { name: "Skills", href: "#skills", num: "03" },
+  { name: "Experience", href: "#experience", num: "04" },
+  { name: "Contact", href: "#contact", num: "05" },
 ];
 
 const Hero = () => {
   const [roleIndex, setRoleIndex] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
-  const sectionRef = useRef(null);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1200
+  );
+  const [mouseCoords, setMouseCoords] = useState({ x: 0, y: 0 });
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"]
-  });
+  const isDesktop = windowWidth >= 900;
 
-  // Morph transforms - More pronounced for smooth "conclusion"
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.75]);
-  const borderRadius = useTransform(scrollYProgress, [0, 1], ["0px", "60px"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.9], [1, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, 100]);
-
+  // Window resize tracking
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
-
-    const timer = setInterval(() => {
-      setRoleIndex((prev) => (prev + 1) % roles.length);
-    }, 3000);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      clearInterval(timer);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const getScale = (text) => {
-    const isMobile = windowWidth <= 768;
-    const baseLength = isMobile ? 8 : 12;
-    let textScale = text.length <= baseLength ? 1 : baseLength / text.length;
+  // Cycle hero words
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setRoleIndex((prev) => (prev + 1) % roles.length);
+    }, 2800);
+    return () => clearInterval(timer);
+  }, []);
 
-    if (isMobile) {
-      return Math.max(0.25, textScale * 0.7);
+  // Lock body scroll and prevent touch through when mobile drawer is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
     }
-    return Math.max(0.4, textScale);
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    };
+  }, [isMenuOpen]);
+
+  // Scroll Parallax Transforms (Only activated on desktop)
+  const { scrollY } = useScroll();
+  const backdropY = useTransform(scrollY, [0, 800], [0, 160]);
+  const portraitY = useTransform(scrollY, [0, 800], [0, -50]);
+  const tagTopLeftY = useTransform(scrollY, [0, 800], [0, -100]);
+  const tagTopRightY = useTransform(scrollY, [0, 800], [0, -130]);
+  const tagBottomLeftY = useTransform(scrollY, [0, 800], [0, 70]);
+  const tagBottomRightY = useTransform(scrollY, [0, 800], [0, 100]);
+
+  // Interactive 3D Mouse Tilt Physics (PC only)
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springTiltX = useSpring(useTransform(mouseY, [-350, 350], [4.5, -4.5]), {
+    damping: 24,
+    stiffness: 160,
+  });
+  const springTiltY = useSpring(useTransform(mouseX, [-350, 350], [-4.5, 4.5]), {
+    damping: 24,
+    stiffness: 160,
+  });
+
+  const handleStageMouseMove = (e) => {
+    if (!isDesktop) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    mouseX.set(x);
+    mouseY.set(y);
+    setMouseCoords({ x: Math.round(e.clientX), y: Math.round(e.clientY) });
   };
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const handleCloseMenu = (e) => {
+    if (e && e.cancelable) e.preventDefault();
+    setIsMenuOpen(false);
+  };
+
+  const handleToggleMenu = (e) => {
+    if (e && e.cancelable) e.preventDefault();
+    setIsMenuOpen((prev) => !prev);
+  };
 
   return (
-    <section id="home" className="hero-modern" ref={sectionRef}>
-      <motion.div
-        className="hero-morph-wrapper"
-        style={{ scale, borderRadius, opacity, y }}
-      >
-        {/* Top Navigation */}
-        <div className="hero-top-nav">
-          <div className="hero-logo">AK.</div>
+    <header
+      id="home"
+      className="hero-mashup"
+      onMouseMove={handleStageMouseMove}
+    >
+      {/* Top Zine Navigation */}
+      <nav className="mashup-nav">
+        <Link to="/" className="brand-lockup">
+          <span className="brand-monogram">AK.</span>
+          <span className="brand-tag">VOL. 26 // PORTFOLIO</span>
+        </Link>
 
-          <div className={`hero-menu ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
-            <div className="menu-line"></div>
-            <div className="menu-line"></div>
-          </div>
+        {/* Desktop Links */}
+        <div className="nav-links-desktop">
+          {menuItems.map((item) => (
+            <a key={item.name} href={item.href} className="nav-link-pill">
+              {item.name}
+            </a>
+          ))}
+          <Link to="/game" className="nav-game-token">
+            <span>🕹️</span> MINIGAME
+          </Link>
         </div>
 
-        {/* Fullscreen Menu Overlay */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <>
-              <motion.div
-                className="menu-backdrop"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setIsMenuOpen(false)}
-              />
+        {/* Mobile Nav Button */}
+        <button
+          className="mobile-nav-toggle"
+          onClick={handleToggleMenu}
+          onTouchEnd={handleToggleMenu}
+          aria-label="Toggle Navigation"
+        >
+          <span className="toggle-bar"></span>
+          <span className="toggle-bar"></span>
+          <span className="toggle-bar"></span>
+        </button>
+      </nav>
 
-              <motion.div
-                className="fullscreen-menu"
-                initial={{ opacity: 0, x: '100%' }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: '100%' }}
-                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              >
-                <button className="menu-close-btn" onClick={() => setIsMenuOpen(false)}>
-                  <IoCloseOutline />
-                </button>
-
-                <div className="menu-content">
-                  {menuItems.map((item, i) => (
-                    <motion.div
-                      key={item.name}
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.1 + 0.3 }}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="menu-item-wrapper"
-                    >
-                      {item.type === "route" ? (
-                        <Link to={item.href} className="menu-item">
-                          <span className="item-number">0{i + 1}</span>
-                          <span className="item-name">{item.name}</span>
-                        </Link>
-                      ) : (
-                        <a href={item.href} className="menu-item">
-                          <span className="item-number">0{i + 1}</span>
-                          <span className="item-name">{item.name}</span>
-                        </a>
-                      )}
-                    </motion.div>
-                  ))}
-                </div>
-                <div className="menu-background-text">NAVIGATE</div>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
-
-        <div className="hero-main-layout">
+      {/* Fullscreen Mobile Drawer */}
+      <AnimatePresence>
+        {isMenuOpen && (
           <motion.div
-            className="hero-headline"
-            initial={{ opacity: 0, y: 20 }}
+            className="mobile-menu-drawer"
+            initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
           >
-            <span className="hero-im">I'm</span>
-            <span className="hero-role">ABHAY</span>
-          </motion.div>
-
-          <div className="hero-visual-center">
-            <div className="hero-big-text-container">
-              <AnimatePresence mode="wait">
-                <motion.h1
-                  key={roles[roleIndex]}
-                  className="hero-big-text"
-                  style={{
-                    scale: getScale(roles[roleIndex]),
-                    transformOrigin: 'center'
-                  }}
-                  initial={{ opacity: 0, y: 20, scale: getScale(roles[roleIndex]) * 0.8 }}
-                  animate={{ opacity: 1, y: 0, scale: getScale(roles[roleIndex]) }}
-                  exit={{ opacity: 0, y: -20, scale: getScale(roles[roleIndex]) * 0.9 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                >
-                  {roles[roleIndex]}
-                </motion.h1>
-              </AnimatePresence>
+            <div className="mobile-drawer-header">
+              <span className="brand-monogram">AK.</span>
+              <button
+                className="mobile-close-btn"
+                onClick={handleCloseMenu}
+                onTouchEnd={handleCloseMenu}
+                aria-label="Close Navigation"
+              >
+                <IoCloseOutline />
+              </button>
             </div>
 
-            <motion.div
-              className="hero-portrait-container"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.4 }}
+            <div className="mobile-links-list">
+              {menuItems.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="mobile-link-item"
+                  onClick={handleCloseMenu}
+                  onTouchEnd={handleCloseMenu}
+                >
+                  <span className="mobile-link-num">{item.num}</span>
+                  <span>{item.name}</span>
+                </a>
+              ))}
+            </div>
+
+            <div className="mono-tag" style={{ color: 'var(--ink-muted)' }}>
+              ABHAY M // KANNUR, KERALA
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hero Stage Body */}
+      <div className="hero-stage-body">
+        {/* Giant Monolithic Typographic Backdrop with Scroll Parallax (PC) */}
+        <motion.div
+          className="hero-giant-backdrop"
+          style={{ y: isDesktop ? backdropY : 0 }}
+        >
+          <AnimatePresence mode="wait">
+            <motion.h1
+              key={roles[roleIndex]}
+              className="hero-giant-word"
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -30, scale: 0.95 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              <img src={abhayImg} alt="Abhay M" className="hero-portrait" />
-            </motion.div>
+              {roles[roleIndex].split(" ")[0]}
+            </motion.h1>
+          </AnimatePresence>
+        </motion.div>
+
+        {/* 3D Kinetic Quantum Model with Parallax (Rendered on PC only) */}
+        {isDesktop && <Hero3DCanvas />}
+
+        {/* Center Cutout Portrait Collage with 3D Depth & Tilt */}
+        <div className="hero-portrait-stage">
+          {/* Floating Sticker 1: Top Left Doodle Note */}
+          <motion.div
+            className="floating-doodle doodle-tag-top-left"
+            drag
+            dragConstraints={{ left: -20, right: 20, top: -20, bottom: 20 }}
+            whileHover={{ scale: 1.08, rotate: -6 }}
+            whileTap={{ scale: 0.95 }}
+            style={{ y: isDesktop ? tagTopLeftY : 0 }}
+          >
+            <div className="doodle-hand-annotation">
+              <span className="doodle-star">★</span>
+              <span>B.Tech ECE // COET Graduate</span>
+            </div>
+          </motion.div>
+
+          {/* Floating Sticker 2: Top Right Streetwear Badge */}
+          <motion.div
+            className="floating-doodle doodle-tag-top-right"
+            drag
+            dragConstraints={{ left: -20, right: 20, top: -20, bottom: 20 }}
+            whileHover={{ scale: 1.08, rotate: 12 }}
+            whileTap={{ scale: 0.95 }}
+            style={{ y: isDesktop ? tagTopRightY : 0 }}
+          >
+            <span className="sticker-pill cobalt">
+              ⚡ GATE ASPIRANT // CORE EC
+            </span>
+          </motion.div>
+
+          {/* The Clean Cutout Portrait with 3D Perspective Tilt (PC) */}
+          <motion.div
+            className="hero-portrait-frame"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              y: isDesktop ? portraitY : 0,
+              rotateX: isDesktop ? springTiltX : 0,
+              rotateY: isDesktop ? springTiltY : 0,
+              transformPerspective: 1000,
+            }}
+          >
+            <img
+              src={abhayImg}
+              alt="Abhay M"
+              className="hero-cutout-img"
+            />
+          </motion.div>
+
+          {/* Floating Sticker 3: Bottom Left Coordinates */}
+          <motion.div
+            className="floating-doodle doodle-tag-bottom-left"
+            drag
+            dragConstraints={{ left: -20, right: 20, top: -20, bottom: 20 }}
+            whileHover={{ scale: 1.08, rotate: 8 }}
+            whileTap={{ scale: 0.95 }}
+            style={{ y: isDesktop ? tagBottomLeftY : 0 }}
+          >
+            <span className="sticker-pill yellow">
+              📍 KANNUR, IN // 2026
+            </span>
+          </motion.div>
+
+          {/* Floating Sticker 4: Bottom Right Good Vibes Badge */}
+          <motion.div
+            className="floating-doodle doodle-tag-bottom-right"
+            drag
+            dragConstraints={{ left: -20, right: 20, top: -20, bottom: 20 }}
+            whileHover={{ scale: 1.08, rotate: -4 }}
+            whileTap={{ scale: 0.95 }}
+            style={{ y: isDesktop ? tagBottomRightY : 0 }}
+          >
+            <span className="sticker-pill orange">
+              EX-DESIGN LEAD (IEEE SB COET)
+            </span>
+          </motion.div>
+        </div>
+
+        {/* Live Telemetry Sensor HUD (PC Only) */}
+        {isDesktop && (
+          <div className="hero-pc-telemetry-strip">
+            <span>✦ 3D PARALLAX: ACTIVE</span>
+            <span>X: {mouseCoords.x}px | Y: {mouseCoords.y}px</span>
+            <span>ENGINE: WEBGL 3D</span>
+          </div>
+        )}
+
+        {/* Hero Editorial Narrative */}
+        <div className="hero-editorial-footer">
+          <div className="hero-role-badge-row">
+            <span className="sticker-pill lime">✦ FOCUS: GATE PREPARATION</span>
+            <span className="sticker-pill">B.TECH ECE // COET ALUMNI</span>
           </div>
 
-          <motion.div
-            className="hero-bottom-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            <motion.a
-              href="#contact"
-              className="chat-btn"
-              style={{ textDecoration: 'none', display: 'inline-block' }}
-              whileHover={{
-                scale: 1.05,
-                backgroundColor: "#001F3D",
-                color: "var(--bg-color)",
-                boxShadow: "0 20px 60px rgba(0, 31, 61, 0.4)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              LET'S CHAT
-            </motion.a>
+          <h2 className="hero-main-heading">
+            Engineering The Edge. <br />
+            <span className="highlight-tag">Silicon &amp; Core Systems.</span>
+          </h2>
 
-            <motion.a
+          <p className="hero-sub-bio">
+            Electronics &amp; Communication Engineering graduate from College of Engineering Thalassery (COET), now actively preparing for GATE. Passionate about embedded silicon architectures, signal processing, and core engineering systems.
+          </p>
+
+          <div className="hero-action-cluster">
+            <a href="#contact" className="btn-chunky-primary">
+              LET'S CHAT ↗
+            </a>
+            <a
               href="https://drive.google.com/file/d/1PVY7UJqGHJlRHW1RHd_e5TokJuT8zboS/view?usp=sharing"
               target="_blank"
-              className="resume-btn"
-              style={{ textDecoration: 'none', display: 'inline-block' }}
-              whileHover={{
-                scale: 1.05,
-                backgroundColor: "#fff",
-                color: "#001F3D",
-                boxShadow: "0 10px 30px rgba(255, 255, 255, 0.4)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              rel="noopener noreferrer"
+              className="btn-chunky-secondary"
             >
-              VIEW RESUME
-            </motion.a>
-          </motion.div>
-          
-          <motion.div
-           initial={{ opacity: 0 }}
-           animate={{ opacity: 1 }}
-           transition={{ delay: 1.2, duration: 1 }}
-           style={{ marginTop: '20px', zIndex: 10 }}
-          >
-              <Link to="/game" className="game-feature-link">
-                  🕹️ <span>BORED? PLAY MINIGAME</span>
-              </Link>
-          </motion.div>
+              VIEW RESUME 📄
+            </a>
+          </div>
         </div>
+      </div>
 
-        {/* Sidebar-style Side Contents */}
-        <div className="hero-side-content left">
-          <div className="side-dash"></div>
-          <p>SPECIALIZED IN WEB DESIGN,<br />UIUX WORKFLOW, AND FRONT<br />END DEVELOPMENT.</p>
+      {/* Infinite Ticker Marquee Tape (Streetwear/Brutalist Transition) */}
+      <div className="marquee-container">
+        <div className="marquee-track">
+          {[1, 2].map((k) => (
+            <React.Fragment key={k}>
+              <span className="marquee-item">
+                <span className="marquee-star">✦</span> ABHAY M
+              </span>
+              <span className="marquee-item">
+                <span className="marquee-star">✦</span> B.TECH ECE (COET)
+              </span>
+              <span className="marquee-item">
+                <span className="marquee-star">✦</span> GATE ASPIRANT
+              </span>
+              <span className="marquee-item">
+                <span className="marquee-star">✦</span> EMBEDDED SYSTEMS
+              </span>
+              <span className="marquee-item">
+                <span className="marquee-star">✦</span> EX-DESIGN LEAD (IEEE SB COET)
+              </span>
+              <span className="marquee-item">
+                <span className="marquee-star">✦</span> RETINA EMULATOR (FPGA)
+              </span>
+              <span className="marquee-item">
+                <span className="marquee-star">✦</span> RASPBERRY PI & IOT
+              </span>
+              <span className="marquee-item">
+                <span className="marquee-star">✦</span> NASA SPACE APPS HACKATHON
+              </span>
+            </React.Fragment>
+          ))}
         </div>
-
-        <div className="hero-side-content right">
-          <p>Build a credible, conversion-focused<br />website that shows your ideal client<br />exactly how you can help them.</p>
-        </div>
-      </motion.div>
-    </section>
+      </div>
+    </header>
   );
 };
 

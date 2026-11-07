@@ -1,156 +1,200 @@
 import React, { useState } from 'react';
-import { motion} from 'framer-motion';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaInstagram, FaTwitter, FaPaperPlane } from 'react-icons/fa';
-import { IoTerminalOutline } from 'react-icons/io5';
+import { motion } from 'framer-motion';
+import {
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaLinkedin,
+  FaInstagram,
+  FaTwitter,
+  FaPaperPlane,
+} from 'react-icons/fa';
 import './Contact.css';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
   });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const mailtoLink = `mailto:abhayappu8@gmail.com?subject=Contact from ${formData.name}&body=${formData.message}`;
+    const mailtoLink = `mailto:abhayappu8@gmail.com?subject=Transmission from ${formData.name}&body=${encodeURIComponent(
+      formData.message
+    )}%0D%0A%0D%0AFrom: ${formData.email}`;
     window.location.href = mailtoLink;
   };
 
-  const contactInfo = [
-    { icon: FaEnvelope, value: 'abhayappu8@gmail.com', link: 'mailto:abhayappu8@gmail.com' },
-    { icon: FaPhone, value: '+91 8136977264', link: 'tel:+918136977264' },
-    { icon: FaMapMarkerAlt, value: 'Kannur, Kerala, India', link: 'https://maps.app.goo.gl/Rr5mPECkoFMWxSes6' }
+  const contactPods = [
+    {
+      icon: FaEnvelope,
+      label: 'Direct Transmission',
+      value: 'abhayappu8@gmail.com',
+      link: 'mailto:abhayappu8@gmail.com',
+    },
+    {
+      icon: FaPhone,
+      label: 'Voice Telephony',
+      value: '+91 8136977264',
+      link: 'tel:+918136977264',
+    },
+    {
+      icon: FaMapMarkerAlt,
+      label: 'Current Coordinates',
+      value: 'Kannur, Kerala, India',
+      link: 'https://maps.app.goo.gl/Rr5mPECkoFMWxSes6',
+    },
   ];
 
   const socialLinks = [
-    { icon: FaLinkedin, link: 'https://linkedin.com/in/abhay-m-98710b287' },
-    { icon: FaInstagram, link: 'https://instagram.com/ak.me_' },
-    { icon: FaTwitter, link: 'https://twitter.com/Akabhay07' }
+    { name: 'LinkedIn', icon: FaLinkedin, link: 'https://linkedin.com/in/abhay-m-98710b287' },
+    { name: 'Instagram', icon: FaInstagram, link: 'https://www.instagram.com/_abh_yyy__/' },
+    { name: 'Twitter / X', icon: FaTwitter, link: 'https://twitter.com/Akabhay07' },
   ];
 
   return (
-    <section id="contact" className="contact-modern">
-      <div className="contact-container">
-        <motion.div
-          className="contact-header-ui"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <div className="ui-terminal-tag"><IoTerminalOutline /> <span>STAY_CONNECTED</span></div>
-          <h2 className="modern-title">READY TO <span>START?</span></h2>
-          <p className="modern-subtitle">
-            Let's build something exceptional. Send a transmission or find me on socials.
+    <section id="contact" className="contact-mashup-section">
+      <div className="contact-mashup-container">
+        {/* Header */}
+        <div className="contact-poster-header">
+          <div className="contact-pill-tag">
+            <span>✦</span> TRANSMISSION GATEWAY <span>✦</span>
+          </div>
+
+          <h2 className="contact-poster-title">
+            Have An Idea? <br />
+            <span className="colored-word">Let's Build It.</span>
+          </h2>
+
+          <p className="contact-sub-text">
+            Open for core electronics discussions, embedded systems collaborations, GATE preparation exchanges, and engineering opportunities. Send a transmission or connect through social channels.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="contact-layout-centered">
-          {/* Holographic Form Card */}
+        {/* 2-Column Split */}
+        <div className="contact-split-grid">
+          {/* Left: Form */}
           <motion.div
-            className="modern-form-card"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
+            className="contact-form-card"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            <div className="form-glow"></div>
-            <form className="glass-form" onSubmit={handleSubmit}>
-              <div className="form-header">
-                <span className="dot pink"></span>
-                <span className="dot cyan"></span>
-                <span className="dot theme"></span>
-              </div>
-
-              <div className="input-field">
-                <label>IDENTIFIER</label>
+            <form onSubmit={handleSubmit}>
+              <div className="contact-form-field">
+                <label className="field-label" htmlFor="name">
+                  01. Your Name / Company
+                </label>
                 <input
                   type="text"
+                  id="name"
                   name="name"
-                  placeholder="Your Full Name"
                   value={formData.name}
                   onChange={handleChange}
                   required
+                  placeholder="e.g. Alex Rivera"
+                  className="comic-input"
                 />
               </div>
 
-              <div className="input-field">
-                <label>PROTO_MAIL</label>
+              <div className="contact-form-field">
+                <label className="field-label" htmlFor="email">
+                  02. Transmission Address (Email)
+                </label>
                 <input
                   type="email"
+                  id="email"
                   name="email"
-                  placeholder="Email Address"
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  placeholder="alex@domain.com"
+                  className="comic-input"
                 />
               </div>
 
-              <div className="input-field">
-                <label>TRANSMISSION</label>
+              <div className="contact-form-field">
+                <label className="field-label" htmlFor="message">
+                  03. The Message / Vision
+                </label>
                 <textarea
+                  id="message"
                   name="message"
-                  placeholder="How can I help you today?"
-                  rows="4"
                   value={formData.message}
                   onChange={handleChange}
                   required
-                ></textarea>
+                  placeholder="Tell me about your product, project, or concept..."
+                  className="comic-input comic-textarea"
+                />
               </div>
 
-              <button type="submit" className="neon-submit-btn">
-                SEND MESSAGE <FaPaperPlane />
+              <button type="submit" className="contact-submit-btn">
+                <span>Send Transmission</span>
+                <FaPaperPlane />
               </button>
             </form>
           </motion.div>
 
-          {/* Floating Info Pods */}
-          <div className="info-pods-container">
-            {contactInfo.map((info, i) => (
+          {/* Right: Pods & Socials */}
+          <div className="contact-direct-column">
+            {contactPods.map((pod, i) => (
               <motion.a
-                key={i}
-                href={info.link}
-                className="info-pod"
-                target="_blank"
+                key={pod.label}
+                href={pod.link}
+                target={pod.link.startsWith('http') ? '_blank' : '_self'}
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, x: 20 }}
+                className="contact-pod-card"
+                initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
               >
-                <div className="pod-icon"><info.icon /></div>
-                <span>{info.value}</span>
+                <div className="pod-icon-box">
+                  <pod.icon />
+                </div>
+                <div>
+                  <div className="pod-label">{pod.label}</div>
+                  <div className="pod-val">{pod.value}</div>
+                </div>
               </motion.a>
             ))}
 
-            <div className="social-pod-row">
-              {socialLinks.map((social, i) => (
-                <motion.a
-                  key={i}
-                  href={social.link}
-                  className="social-pod"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ y: -5 }}
-                >
-                  <social.icon />
-                </motion.a>
-              ))}
-            </div>
+            {/* Social Pods */}
+            <motion.div
+              className="social-buttons-box"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.35, duration: 0.5 }}
+            >
+              <div className="social-box-title">Social Frequency</div>
+              <div className="social-pills-row">
+                {socialLinks.map((s) => (
+                  <a
+                    key={s.name}
+                    href={s.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="social-pill-btn"
+                  >
+                    <s.icon />
+                    <span>{s.name}</span>
+                  </a>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>
-
-      {/* Background Decorative Blur */}
-      <div className="contact-bg-glow cyan"></div>
-      <div className="contact-bg-glow pink"></div>
     </section>
   );
 };

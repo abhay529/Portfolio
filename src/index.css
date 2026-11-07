@@ -1,3 +1,5 @@
+/* ===== index.css — Avant-Garde Creative UX Mashup Design Tokens ===== */
+
 @font-face {
   font-family: 'Artega';
   src: url('./assets/fonts/Artega.otf') format('opentype');
@@ -6,39 +8,151 @@
 }
 
 :root {
-  --bg-color: #F6F0D7;
-  --accent-color: #C5D89D;
-  --text-secondary: #3B4953;
-  --text-primary: #001F3D;
-  --white: #001F3D;
+  /* Canvas & Paper Palettes (Zine / Streetwear Warm Base) */
+  --paper-cream: #F5F1E8;
+  --paper-light: #FAF7F0;
+  --paper-dark: #ECE6D8;
+  --paper-card: #FFFFFF;
+  
+  /* Ink & Contrast */
+  --ink-black: #111113;
+  --ink-secondary: #3D3D42;
+  --ink-muted: #6B6B76;
+  --ink-ghost: rgba(17, 17, 19, 0.08);
+
+  /* Bold Streetwear & Pop Accents */
+  --pop-crimson: #E11D48;
+  --pop-vermilion: #FF3B30;
+  --pop-orange: #FF5500;
+  --pop-yellow: #FFD600;
+  --pop-cobalt: #1D4ED8;
+  --pop-azure: #2563EB;
+  --pop-emerald: #10B981;
+  --pop-purple: #7C3AED;
+  
+  /* Dark Mode / 3D Perspective Stage */
+  --stage-dark: #0A0A0E;
+  --stage-surface: #14141B;
+  --stage-border: rgba(255, 255, 255, 0.12);
+
+  /* Typography Families */
+  --font-display: 'Syne', 'Artega', sans-serif;
+  --font-bubble: 'Righteous', 'Syne', cursive, sans-serif;
+  --font-doodle: 'Caveat', cursive;
+  --font-mono: 'Space Grotesk', monospace, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Montserrat', sans-serif;
+
+  /* Neo-Brutalist & Streetwear Shadows */
+  --shadow-comic-sm: 3px 3px 0px #111113;
+  --shadow-comic-md: 5px 5px 0px #111113;
+  --shadow-comic-lg: 8px 8px 0px #111113;
+  --shadow-comic-hover: 10px 10px 0px #111113;
+  --shadow-pop-orange: 6px 6px 0px #FF5500;
+  --shadow-pop-cobalt: 6px 6px 0px #1D4ED8;
+
+  /* Border Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
+  --radius-pill: 9999px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--paper-cream);
+  color: var(--ink-black);
+  overflow-x: hidden;
 }
 
 body {
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-sans);
+  background-color: var(--paper-cream);
+  color: var(--ink-black);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: var(--bg-color);
-  color: var(--text-primary);
+  line-height: 1.5;
+  overflow-x: hidden;
+  position: relative;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Artega', sans-serif;
+/* Custom Creative Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--paper-dark);
+  border-left: 2px solid var(--ink-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pop-orange);
+  border: 2px solid var(--ink-black);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pop-crimson);
+}
+
+/* Selection Color */
+::selection {
+  background: var(--pop-yellow);
+  color: var(--ink-black);
+}
+
+/* Global Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--ink-black);
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Utilities for Creative Stickers */
+.doodle-text {
+  font-family: var(--font-doodle);
   font-weight: 700;
-  color: var(--text-primary);
+  line-height: 1;
+}
+
+.mono-tag {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+.bubble-text {
+  font-family: var(--font-bubble);
+  letter-spacing: 0.02em;
 }
 
-* {
-  box-sizing: border-box;
+/* Starburst Asterisk Graphic */
+.doodle-star {
+  display: inline-block;
+  color: var(--pop-crimson);
+  font-family: var(--font-display);
+  font-weight: 900;
+  transform: rotate(12deg);
 }

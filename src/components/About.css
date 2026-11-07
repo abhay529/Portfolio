@@ -1,136 +1,324 @@
-.about-minimalist {
+/* ===== About.css — Retro Graphic Zine & Editorial Story ===== */
+
+.about-zine-section {
   position: relative;
-  /* Create virtual scroll distance (3x screen height) to "pause" the user */
-  height: 300vh;
-  background: transparent;
+  width: 100%;
+  background: var(--pop-crimson);
+  color: #FFFFFF;
+  padding: 6rem 1.5rem;
+  overflow: hidden;
+  border-top: 3px solid var(--ink-black);
+  border-bottom: 3px solid var(--ink-black);
 }
 
-.sticky-wrapper {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+@media (min-width: 768px) {
+  .about-zine-section {
+    padding: 8rem 3rem;
+  }
+}
+
+.about-zine-container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+/* Giant Ghost Background Number (Reference Image 1: "02") */
+.about-ghost-number {
+  position: absolute;
+  top: -2rem;
+  right: -2rem;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 25vw, 24rem);
+  font-weight: 900;
+  line-height: 0.8;
+  color: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+/* Zine Header Layout */
+.about-zine-header {
+  position: relative;
+  z-index: 5;
+  margin-bottom: 4rem;
+}
+
+.about-zine-eyebrow {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.about-pill-white {
+  display: inline-block;
+  padding: 0.35rem 0.95rem;
+  background: #FFFFFF;
+  color: var(--ink-black);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 800;
+  border: 2px solid var(--ink-black);
+  border-radius: var(--radius-pill);
+  box-shadow: 3px 3px 0px var(--ink-black);
+}
+
+.about-doodle-title {
+  font-family: var(--font-doodle);
+  font-size: clamp(3.2rem, 8vw, 6.5rem);
+  color: #FFFFFF;
+  line-height: 0.95;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+
+.about-doodle-asterisk {
+  color: var(--pop-yellow);
+  font-size: 0.8em;
+  display: inline-block;
+  animation: spin-slow 20s linear infinite;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Big Lyrics Statement */
+.about-manifesto-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3.2vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.35;
+  color: #FFFFFF;
+  max-width: 980px;
+  margin-bottom: 3.5rem;
+  letter-spacing: -0.01em;
+}
+
+.about-manifesto-text .underline-highlight {
+  background: var(--ink-black);
+  color: var(--pop-yellow);
+  padding: 0.15rem 0.6rem;
+  border-radius: 6px;
+  display: inline-block;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.4);
+}
+
+/* 3-Column Zine Card Deck */
+.about-card-deck {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  position: relative;
+  z-index: 5;
+}
+
+@media (min-width: 768px) {
+  .about-card-deck {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.zine-feature-card {
+  background: #FFFFFF;
+  color: var(--ink-black);
+  border: 2.5px solid var(--ink-black);
+  border-radius: var(--radius-lg);
+  padding: 2.2rem 1.8rem;
+  box-shadow: 6px 6px 0px var(--ink-black);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.zine-feature-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0px var(--ink-black);
+}
+
+.card-stamp-num {
+  font-family: var(--font-doodle);
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--pop-crimson);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.card-zine-heading {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--ink-black);
+  margin-bottom: 0.8rem;
+  letter-spacing: -0.02em;
+}
+
+.card-zine-body {
+  font-size: 0.95rem;
+  color: var(--ink-secondary);
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+}
+
+.card-footer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  background: var(--paper-cream);
+  border: 1.5px solid var(--ink-black);
+  border-radius: var(--radius-sm);
+  color: var(--ink-black);
+}
+
+/* Zine Footer Telemetry Row */
+.about-telemetry-row {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 2px dashed rgba(255, 255, 255, 0.3);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.telemetry-node {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.telemetry-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.telemetry-val {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+/* ===== 3D Celestial Space System Container (Spline-style 3D Space Engine) ===== */
+.about-3d-scene-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
   overflow: hidden;
 }
 
-.about-min-container {
-  width: 100%;
-  max-width: 1400px;
-  padding: 0 60px;
-}
-
-.min-top-line {
-  width: 100%;
-  height: 1px;
-  background: var(--text-secondary);
-  opacity: 0.2;
-  margin-bottom: 60px;
-}
-
-.min-pill {
+.about-space-hud {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 24px;
-  background: var(--accent-color);
-  opacity: 0.6;
-  border: 1px solid var(--text-secondary);
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(17, 20, 26, 0.75);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
   border-radius: 99px;
-  font-family: monospace;
-  font-size: 0.9rem;
+  backdrop-filter: blur(8px);
+  z-index: 15;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+  pointer-events: auto;
+}
+
+.space-hud-pulse {
+  width: 8px;
+  height: 8px;
+  background: var(--pop-yellow);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--pop-yellow);
+  animation: hud-blink 1.8s ease-in-out infinite alternate;
+}
+
+.space-hud-text {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
   font-weight: 700;
-  margin-bottom: 60px;
-  backdrop-filter: blur(10px);
+  letter-spacing: 0.08em;
+  color: #FFFFFF;
+  text-transform: uppercase;
 }
 
-.pill-active {
-  color: var(--text-primary);
+@keyframes hud-blink {
+  from {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 
-.pill-total {
-  color: var(--text-secondary);
-  opacity: 0.6;
-}
-
-/* Lyrics Style Typography */
-.lyrics-statement {
-  display: flex;
-  flex-wrap: wrap;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.5rem;
-  line-height: 1.3;
-  font-weight: 500;
-  letter-spacing: -1.2px;
-  max-width: 950px;
-  margin-bottom: 60px;
-  gap: 0 14px;
-}
-
-.min-word-wrap {
-  display: inline-block;
-}
-
-.min-word {
-  display: inline-block;
-  color: var(--text-primary);
-}
-
-/* Footer Details */
-.min-footer-details {
-  display: flex;
-  gap: 120px;
-  border-top: 1px solid var(--text-secondary);
-  opacity: 0.8;
-  padding-top: 50px;
-}
-
-.min-detail-item {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.detail-label {
-  font-family: monospace;
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: 4px;
-}
-
-.detail-value {
-  font-size: 1.2rem;
-  color: var(--text-secondary);
-  font-weight: 400;
-}
-
-@media (max-width: 1210px) {
-  .lyrics-statement {
-    font-size: 3.2rem;
+@media (max-width: 899px) {
+  .about-3d-scene-container {
+    display: none !important;
   }
 }
 
 @media (max-width: 768px) {
-  .about-minimalist {
-    height: 250vh;
+  .about-zine-section {
+    padding: 4.5rem 1rem 5.5rem 1rem;
+    overflow-x: hidden;
   }
 
-  /* Slightly less pinning on mobile */
-  .lyrics-statement {
+  .about-ghost-number {
+    display: none;
+  }
+
+  .about-zine-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .about-zine-card {
+    padding: 1.5rem 1.2rem;
+    border-width: 2px;
+    box-shadow: 4px 4px 0px var(--ink-black);
+  }
+
+  .card-stamp-num {
     font-size: 2.2rem;
-    gap: 0 10px;
-    line-height: 1.25;
-    letter-spacing: -1px;
+    margin-bottom: 0.5rem;
   }
 
-  .min-footer-details {
-    flex-direction: column;
-    gap: 40px;
+  .card-zine-heading {
+    font-size: 1.25rem;
   }
 
-  .about-min-container {
-    padding: 0 30px;
+  .about-telemetry-row {
+    margin-top: 2.5rem;
+    gap: 1.25rem;
   }
 }

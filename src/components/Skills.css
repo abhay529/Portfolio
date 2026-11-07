@@ -1,171 +1,712 @@
-.skills-modern {
-  padding: 100px 20px;
-  display: flex;
-  justify-content: center;
+/* ===== Skills.css — RPG Skill Tree & Tactical Loadout HUD ===== */
+
+.skills-tree-section {
   position: relative;
-  overflow: hidden;
-}
-
-.skills-container {
   width: 100%;
-  max-width: 1200px;
+  background-color: var(--paper-cream);
+  color: var(--ink-black);
+  padding: 6.5rem 1.5rem 8.5rem 1.5rem;
+  overflow: hidden;
+  border-top: 3px solid var(--ink-black);
+  border-bottom: 3px solid var(--ink-black);
 }
 
-.skills-header-ui {
+@media (min-width: 768px) {
+  .skills-tree-section {
+    padding: 8.5rem 3rem 10.5rem 3rem;
+  }
+}
+
+.skills-hud-container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ====================================================
+   HEADER CLUSTER
+   ==================================================== */
+.skills-hud-header {
   text-align: center;
-  margin-bottom: 80px;
+  max-width: 880px;
+  margin: 0 auto 3.5rem auto;
+  position: relative;
 }
 
-.skills-matrix-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
-  margin-bottom: 80px;
-}
-
-/* Skill Module - Premium Redesign */
-.skill-module {
-  background: #ffffff;
-  /* Clean white card */
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 24px;
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-  height: 220px;
-  /* Uniform height */
-}
-
-.skill-module:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-  border-color: var(--accent-color);
-}
-
-.module-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-}
-
-.skill-icon {
-  font-size: 1.8rem;
-  color: var(--text-primary);
-  width: 50px;
-  height: 50px;
-  background: #f8fafc;
-  border-radius: 14px;
+.skills-hud-eyebrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
 }
 
-.skill-module:hover .skill-icon {
-  background: var(--text-primary);
-  color: #ffffff;
+.hud-badge-pill {
+  display: inline-block;
+  padding: 0.35rem 0.95rem;
+  background: var(--pop-yellow);
+  color: var(--ink-black);
+  border: 2px solid var(--ink-black);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 2.5px 2.5px 0 var(--ink-black);
 }
 
-.skill-lvl {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #94a3b8;
-  background: #f1f5f9;
-  padding: 4px 10px;
-  border-radius: 20px;
+.hud-telemetry-tag {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--pop-crimson);
+  letter-spacing: 0.08em;
 }
 
-.skill-title {
-  font-family: 'Montserrat', sans-serif;
-  /* Explicit Montserrat */
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: auto;
-  /* Push content apart */
-  margin-top: 10px;
-  letter-spacing: -0.5px;
+.skills-hud-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+  font-weight: 900;
+  line-height: 0.98;
+  color: var(--ink-black);
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
 }
 
-.skill-meter-container {
-  height: 6px;
-  background: #f1f5f9;
-  border-radius: 3px;
-  overflow: hidden;
-  margin-top: 20px;
+.skills-hud-title .highlight-text {
+  color: var(--pop-orange);
+  text-shadow: 2px 2px 0 var(--ink-black);
 }
 
-.skill-meter-fill {
-  height: 100%;
-  background: var(--text-primary);
-  border-radius: 3px;
-  transition: width 1s ease-out;
+.skills-hud-desc {
+  font-size: 1.05rem;
+  color: var(--ink-secondary);
+  max-width: 680px;
+  margin: 0 auto 2rem auto;
+  line-height: 1.6;
 }
 
-/* Soft Skills Cloud */
-.soft-skills-cloud-wrap {
-  text-align: center;
-}
-
-.section-subtitle-small {
-  font-family: monospace;
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  letter-spacing: 4px;
-  margin-bottom: 30px;
-}
-
-.soft-skills-flex {
+/* Tactical Telemetry Strip */
+.skills-hud-stats-bar {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #FFFFFF;
+  border: 2px solid var(--ink-black);
+  border-radius: var(--radius-md);
+  box-shadow: 3.5px 3.5px 0 var(--ink-black);
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.soft-trait-tag {
-  background: var(--accent-color);
-  opacity: 0.5;
-  border: 1px solid var(--text-secondary);
-  padding: 12px 24px;
-  border-radius: 99px;
-  font-size: 0.75rem;
+.hud-stat-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hud-stat-cell .stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
   font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
+  letter-spacing: 0.1em;
+  color: var(--ink-secondary);
+  text-transform: uppercase;
 }
 
-.soft-trait-tag:hover {
-  background: var(--accent-color);
+.hud-stat-cell .stat-val {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--ink-black);
+}
+
+.hud-stat-cell .stat-val.accent {
+  color: var(--pop-crimson);
+}
+
+/* ====================================================
+   CATEGORY FILTER TABS (God of War / Aloy Menu Style)
+   ==================================================== */
+.skills-category-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.skills-tab-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 1.2rem;
+  background: #FFFFFF;
+  border: 2px solid var(--ink-black);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--ink-black);
+  cursor: pointer;
+  box-shadow: 2.5px 2.5px 0 var(--ink-black);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.skills-tab-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3.5px 3.5px 0 var(--ink-black);
+}
+
+.skills-tab-btn .tab-count {
+  font-size: 0.72rem;
+  opacity: 0.75;
+}
+
+.skills-tab-btn.active {
+  background: var(--ink-black);
+  color: #FFFFFF;
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ink-black);
+}
+
+.skills-tab-btn.active .tab-count {
+  color: var(--pop-yellow);
   opacity: 1;
-  border-color: var(--text-primary);
-  color: var(--text-primary);
-  transform: scale(1.05);
 }
 
-@media (max-width: 1200px) {
-  .skills-matrix-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+.tab-active-indicator {
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--pop-orange);
+  pointer-events: none;
 }
 
-@media (max-width: 900px) {
-  .skills-matrix-grid {
+/* ====================================================
+   SKILLS LOADOUT GRID (PC 4-Column Layout)
+   ==================================================== */
+.skills-loadout-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 4rem;
+}
+
+@media (min-width: 640px) {
+  .skills-loadout-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.35rem;
   }
 }
 
-@media (max-width: 600px) {
-  .skills-matrix-grid {
-    grid-template-columns: 1fr;
+@media (min-width: 1024px) {
+  .skills-loadout-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Tactical Skill Card */
+.skill-loadout-card {
+  position: relative;
+  background: #FFFFFF;
+  border: 2.5px solid var(--ink-black);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.35rem;
+  box-shadow: 5px 5px 0 var(--ink-black);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.skill-loadout-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--ink-black);
+}
+
+/* Tactical Corner Accent Brackets */
+.card-bracket {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--ink-black);
+  opacity: 0.25;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.card-bracket.tl {
+  top: 6px;
+  left: 8px;
+}
+
+.card-bracket.br {
+  bottom: 6px;
+  right: 8px;
+}
+
+/* Top Meta Bar */
+.skill-card-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+
+.skill-cat-chip {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  border: 1.5px solid var(--ink-black);
+  background: var(--paper-cream);
+  color: var(--ink-black);
+}
+
+.skill-cat-chip[data-cat='Design'] {
+  background: #FFF7ED;
+  color: #C2410C;
+  border-color: #EA580C;
+}
+
+.skill-cat-chip[data-cat='Development'] {
+  background: #EFF6FF;
+  color: #1D4ED8;
+  border-color: #2563EB;
+}
+
+.skill-cat-chip[data-cat='Electronics'] {
+  background: #FEFCE8;
+  color: #A16207;
+  border-color: #CA8A04;
+}
+
+.skill-cat-chip[data-cat='Core ECE'] {
+  background: #FFF1F2;
+  color: #BE123C;
+  border-color: #E11D48;
+}
+
+.skill-tier-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  background: var(--ink-black);
+  color: #FFFFFF;
+  border-radius: 4px;
+}
+
+.skill-tier-badge .tier-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: var(--pop-yellow);
+}
+
+/* Middle Body */
+.skill-card-body {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  margin-bottom: 1.25rem;
+}
+
+.skill-icon-node {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  background: var(--paper-cream);
+  border: 2px solid var(--ink-black);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  color: var(--ink-black);
+  box-shadow: 2px 2px 0 var(--ink-black);
+  transition: all 0.2s ease;
+}
+
+.skill-loadout-card:hover .skill-icon-node {
+  transform: scale(1.05);
+  box-shadow: 3px 3px 0 var(--ink-black);
+  border-color: var(--glow-color, var(--ink-black));
+}
+
+.skill-meta-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.skill-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--ink-black);
+  letter-spacing: -0.01em;
+  margin: 0 0 0.2rem 0;
+  word-break: break-word;
+}
+
+.skill-rank-text {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--ink-secondary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Calibrated LED / Segmented Meter */
+.skill-meter-assembly {
+  margin-top: auto;
+}
+
+.meter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.meter-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--ink-secondary);
+  letter-spacing: 0.08em;
+}
+
+.meter-percentage {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: var(--ink-black);
+}
+
+.meter-track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: var(--paper-cream);
+  border: 1.5px solid var(--ink-black);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.meter-fill-bar {
+  height: 100%;
+  border-radius: 99px;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.meter-ticks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-evenly;
+  pointer-events: none;
+}
+
+.meter-ticks span {
+  width: 1px;
+  height: 100%;
+  background: rgba(17, 20, 26, 0.25);
+}
+
+/* ====================================================
+   PASSIVE TRAITS & EXECUTION MINDSET DECK
+   ==================================================== */
+.skills-traits-deck {
+  background: #FFFFFF;
+  border: 3px solid var(--ink-black);
+  border-radius: var(--radius-lg);
+  padding: 2.2rem 2.4rem;
+  box-shadow: 6px 6px 0 var(--ink-black);
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+@media (min-width: 900px) {
+  .skills-traits-deck {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.traits-info-col {
+  max-width: 420px;
+}
+
+.traits-sub-tag {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--pop-orange);
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.traits-deck-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--ink-black);
+  line-height: 1.15;
+  margin: 0 0 0.5rem 0;
+}
+
+.traits-deck-desc {
+  font-size: 0.92rem;
+  color: var(--ink-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.traits-chip-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  flex: 1;
+  justify-content: flex-start;
+}
+
+@media (min-width: 900px) {
+  .traits-chip-cloud {
+    justify-content: flex-end;
+  }
+}
+
+.trait-badge-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 1rem;
+  background: var(--paper-cream);
+  border: 2px solid var(--ink-black);
+  border-radius: var(--radius-pill);
+  box-shadow: 2.5px 2.5px 0 var(--ink-black);
+  cursor: default;
+  transition: all 0.15s ease;
+}
+
+.trait-badge-chip:hover {
+  background: var(--pop-yellow);
+}
+
+.trait-num {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 900;
+  color: var(--pop-crimson);
+}
+
+.trait-text {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--ink-black);
+  letter-spacing: 0.04em;
+}
+
+/* ====================================================
+   MOBILE SPECIFIC REFINEMENTS (2 in a Row, Zero Glitch)
+   ==================================================== */
+@media (max-width: 768px) {
+  .skills-tree-section {
+    padding: 4.5rem 0.85rem 5.5rem 0.85rem;
+    overflow-x: hidden;
   }
 
-  .modern-title {
-    font-size: 2.5rem;
+  .skills-hud-container {
+    max-width: 100%;
+    overflow-x: hidden;
+    padding: 0;
+  }
+
+  .skills-hud-header {
+    margin-bottom: 2rem;
+  }
+
+  .skills-hud-eyebrow {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .hud-badge-pill {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  .hud-telemetry-tag {
+    font-size: 0.72rem;
+  }
+
+  .skills-hud-title {
+    font-size: 2.2rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .skills-hud-desc {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+  }
+
+  .skills-hud-stats-bar {
+    gap: 1rem;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hud-stat-cell .stat-label {
+    font-size: 0.6rem;
+  }
+
+  .hud-stat-cell .stat-val {
+    font-size: 0.8rem;
+  }
+
+  .skills-category-tabs {
+    gap: 0.4rem;
+    justify-content: flex-start;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 0.4rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .skills-category-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .skills-tab-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.72rem;
+    flex-shrink: 0;
+    box-shadow: 1.5px 1.5px 0 var(--ink-black);
+  }
+
+  /* 2 in a row on mobile */
+  .skills-loadout-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .skill-loadout-card {
+    padding: 0.85rem 0.75rem;
+    border-width: 2px;
+    box-shadow: 2.5px 2.5px 0 var(--ink-black);
+    border-radius: var(--radius-md);
+  }
+
+  .card-bracket {
+    display: none;
+  }
+
+  .skill-card-top-bar {
+    margin-bottom: 0.6rem;
+  }
+
+  .skill-cat-chip {
+    font-size: 0.58rem;
+    padding: 0.12rem 0.4rem;
+  }
+
+  .skill-tier-badge {
+    padding: 0.12rem 0.35rem;
+  }
+
+  .skill-tier-badge .tier-label {
+    font-size: 0.56rem;
+  }
+
+  .skill-card-body {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .skill-icon-node {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    font-size: 1.05rem;
+    border-width: 1.5px;
+    box-shadow: 1.5px 1.5px 0 var(--ink-black);
+  }
+
+  .skill-name {
+    font-size: 0.82rem;
+    line-height: 1.2;
+    margin: 0 0 0.15rem 0;
+  }
+
+  .skill-rank-text {
+    font-size: 0.6rem;
+  }
+
+  .meter-label {
+    font-size: 0.58rem;
+  }
+
+  .meter-percentage {
+    font-size: 0.68rem;
+  }
+
+  .meter-track {
+    height: 6px;
+    border-width: 1px;
+  }
+
+  .skills-traits-deck {
+    padding: 1.25rem 1rem;
+    border-width: 2px;
+    box-shadow: 3.5px 3.5px 0 var(--ink-black);
+    gap: 1.25rem;
+  }
+
+  .traits-deck-title {
+    font-size: 1.25rem;
+  }
+
+  .traits-deck-desc {
+    font-size: 0.82rem;
+  }
+
+  .trait-badge-chip {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.72rem;
+  }
+
+  .trait-text {
+    font-size: 0.7rem;
   }
 }
