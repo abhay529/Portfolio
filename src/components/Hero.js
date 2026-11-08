@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   motion,
   AnimatePresence,
@@ -34,7 +34,7 @@ const Hero = () => {
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 1200
   );
-  const [mouseCoords, setMouseCoords] = useState({ x: 0, y: 0 });
+  const coordsRef = useRef(null);
 
   const isDesktop = windowWidth >= 900;
 
@@ -97,7 +97,9 @@ const Hero = () => {
     const y = e.clientY - rect.top - rect.height / 2;
     mouseX.set(x);
     mouseY.set(y);
-    setMouseCoords({ x: Math.round(e.clientX), y: Math.round(e.clientY) });
+    if (coordsRef.current) {
+      coordsRef.current.textContent = `X: ${Math.round(e.clientX)}px | Y: ${Math.round(e.clientY)}px`;
+    }
   };
 
   const handleCloseMenu = (e) => {
@@ -300,7 +302,7 @@ const Hero = () => {
         {isDesktop && (
           <div className="hero-pc-telemetry-strip">
             <span>✦ 3D PARALLAX: ACTIVE</span>
-            <span>X: {mouseCoords.x}px | Y: {mouseCoords.y}px</span>
+            <span ref={coordsRef}>X: 0px | Y: 0px</span>
             <span>ENGINE: WEBGL 3D</span>
           </div>
         )}

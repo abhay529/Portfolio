@@ -12,7 +12,7 @@ import NotFound from './components/NotFound';
 import GamePage from './components/GamePage';
 import SplashScreen from './components/SplashScreen';
 import AnimatedBackground from './components/AnimatedBackground';
-import CustomCursor from './components/CustomCursor';
+// import CustomCursor from './components/CustomCursor';
 import SectionScroll from './components/SectionScroll';
 import './App.css';
 import './styles/background.css';
@@ -43,7 +43,8 @@ function App() {
   return (
     <Router>
       {isLoading && <SplashScreen onFinish={() => setIsLoading(false)} />}
-      <CustomCursor />
+      {/* CustomCursor is disabled to eliminate JS thread latency & restore native 144Hz hardware pointer */}
+      {/* <CustomCursor /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/game" element={<GamePage />} />

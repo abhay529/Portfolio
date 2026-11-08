@@ -1,117 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Float } from '@react-three/drei';
-import * as THREE from 'three';
 import './SplashScreen.css';
 
-// 3D Spline-Style Geometric Knot & Floating Rings
-const SplineLoadingCore = ({ progress, mousePos }) => {
-  const knotRef = useRef();
-  const ring1Ref = useRef();
-  const ring2Ref = useRef();
-  const groupRef = useRef();
-
-  useFrame((state, delta) => {
-    // Majestic, cinematic rotation rate
-    const speed = 0.5 + (progress / 100) * 0.75;
-
-    if (knotRef.current) {
-      knotRef.current.rotation.x += delta * 0.45 * speed;
-      knotRef.current.rotation.y += delta * 0.6 * speed;
-    }
-
-    if (ring1Ref.current) {
-      ring1Ref.current.rotation.x -= delta * 0.35;
-      ring1Ref.current.rotation.z += delta * 0.25;
-    }
-
-    if (ring2Ref.current) {
-      ring2Ref.current.rotation.y += delta * 0.4;
-      ring2Ref.current.rotation.z -= delta * 0.2;
-    }
-
-    // Gentle parallax response to mouse on desktop
-    if (groupRef.current && mousePos && mousePos.current) {
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(
-        groupRef.current.rotation.y,
-        mousePos.current.x * 0.4,
-        0.05
-      );
-      groupRef.current.rotation.x = THREE.MathUtils.lerp(
-        groupRef.current.rotation.x,
-        -mousePos.current.y * 0.4,
-        0.05
-      );
-    }
-  });
-
-  return (
-    <group ref={groupRef} position={[0, 0, 0]}>
-      <Float speed={1.8} rotationIntensity={0.5} floatIntensity={0.8}>
-        {/* Central Spline Torus Knot */}
-        <mesh ref={knotRef} scale={1.15}>
-          <torusKnotGeometry args={[0.9, 0.28, 128, 28]} />
-          <meshStandardMaterial
-            color="#FF5500"
-            roughness={0.15}
-            metalness={0.85}
-            emissive="#FF5500"
-            emissiveIntensity={0.4}
-          />
-        </mesh>
-
-        {/* Outer Wireframe Octahedron Cage */}
-        <mesh scale={1.85}>
-          <octahedronGeometry args={[1.2, 1]} />
-          <meshStandardMaterial
-            color="#11141A"
-            wireframe
-            transparent
-            opacity={0.16}
-          />
-        </mesh>
-
-        {/* Concentric Gyroscope Rings */}
-        <mesh ref={ring1Ref}>
-          <torusGeometry args={[2.0, 0.02, 16, 100]} />
-          <meshStandardMaterial
-            color="#2563EB"
-            emissive="#2563EB"
-            emissiveIntensity={0.85}
-          />
-        </mesh>
-
-        <mesh ref={ring2Ref} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[2.3, 0.015, 16, 100]} />
-          <meshStandardMaterial
-            color="#FFD600"
-            emissive="#FFD600"
-            emissiveIntensity={0.85}
-          />
-        </mesh>
-      </Float>
-    </group>
-  );
-};
+// Crisp Vector AK. Monogram
+const AkMonogram = () => (
+  <svg
+    className="obsidian-ak-svg"
+    viewBox="0 0 96 25"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="AK. Logo"
+  >
+    <path
+      fill="#FFFFFF"
+      fillRule="evenodd"
+      d="M 86.12 18.31 L 86.00 18.56 L 86.06 23.94 L 94.94 23.94 L 94.94 18.12 L 93.81 18.00 L 86.62 18.00 Z M 44.06 0.00 L 44.00 22.44 L 44.12 23.94 L 53.81 23.94 L 53.94 22.75 L 53.94 13.75 L 54.38 13.19 L 54.69 13.25 L 56.62 14.81 L 57.31 15.06 L 57.94 15.69 L 59.06 16.31 L 59.50 16.75 L 60.25 17.06 L 62.50 18.81 L 63.31 19.12 L 65.31 20.69 L 66.25 21.12 L 66.81 21.69 L 68.38 22.75 L 69.19 23.06 L 69.62 23.50 L 69.69 23.94 L 83.75 23.94 L 83.75 23.50 L 83.56 23.19 L 82.44 22.19 L 81.62 21.88 L 80.94 21.25 L 79.88 20.75 L 79.19 20.12 L 78.56 19.94 L 77.56 19.19 L 76.88 18.88 L 76.19 18.25 L 75.19 17.81 L 74.31 17.12 L 73.69 16.94 L 72.75 16.19 L 72.00 15.88 L 71.25 15.19 L 70.44 14.88 L 69.44 14.12 L 68.94 13.94 L 68.06 13.19 L 67.00 12.75 L 66.50 12.12 L 66.50 11.50 L 66.81 11.12 L 67.62 10.81 L 69.75 9.25 L 70.62 8.81 L 72.75 7.25 L 73.62 6.81 L 75.75 5.25 L 78.31 3.69 L 78.94 3.12 L 79.62 2.81 L 80.62 2.06 L 81.44 1.88 L 81.81 1.44 L 81.56 0.00 L 80.69 0.00 L 80.69 0.25 L 80.19 0.50 L 71.06 0.56 L 70.38 0.50 L 70.12 0.25 L 70.12 0.00 L 69.38 0.00 L 69.38 0.38 L 69.12 0.69 L 68.00 1.31 L 64.38 3.94 L 63.81 4.19 L 63.25 4.75 L 60.88 6.19 L 60.25 6.81 L 57.88 8.25 L 57.25 8.88 L 56.44 9.25 L 54.75 10.62 L 54.38 10.69 L 54.06 10.50 L 53.94 10.19 L 53.94 1.19 L 53.81 0.00 Z M 0.81 23.94 L 12.44 23.94 L 12.44 23.56 L 13.56 21.62 L 14.25 20.75 L 14.75 20.50 L 29.38 20.38 L 30.19 20.75 L 30.88 21.38 L 31.31 22.12 L 32.06 22.94 L 32.31 23.50 L 32.31 23.94 L 42.75 23.94 L 42.56 22.81 L 42.06 22.12 L 41.88 21.56 L 41.12 20.62 L 40.62 19.69 L 40.12 19.19 L 39.75 18.31 L 38.12 16.12 L 36.75 13.75 L 36.12 13.06 L 35.69 12.12 L 35.00 11.31 L 34.75 10.62 L 33.00 8.25 L 32.75 7.56 L 32.19 6.94 L 31.62 5.88 L 31.06 5.31 L 30.75 4.50 L 30.19 3.88 L 29.62 2.81 L 29.12 2.31 L 28.81 1.50 L 27.94 0.56 L 27.88 0.00 L 17.00 0.00 L 17.00 0.44 L 16.19 1.31 L 15.81 2.06 L 15.25 2.62 L 14.94 3.25 L 13.12 5.56 L 12.81 6.25 L 12.19 6.88 L 9.88 10.31 L 9.12 11.12 L 7.88 13.12 L 7.31 13.69 L 5.81 15.94 L 5.25 16.50 L 4.81 17.38 L 3.19 19.38 L 2.81 20.19 L 1.25 22.12 L 0.94 22.75 Z M 18.81 13.19 L 19.62 12.31 L 21.94 9.00 L 22.25 8.75 L 22.69 8.75 L 24.25 10.94 L 24.81 11.50 L 25.19 12.31 L 25.94 12.94 L 26.12 13.50 L 25.81 13.94 L 25.50 14.06 L 19.44 14.06 L 18.88 13.69 Z"
+    />
+  </svg>
+);
 
 const SplashScreen = ({ onFinish }) => {
   const [progress, setProgress] = useState(0);
-  const [statusText, setStatusText] = useState('INITIALIZING ARCHITECTURE');
   const [isDone, setIsDone] = useState(false);
-  const mousePos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      mousePos.current.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mousePos.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  useEffect(() => {
-    // Slower, cinematic progression: counts smoothly from 0% to 100% over ~3.5 seconds
+    // Smooth, calibrated progression over ~2.1 seconds
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -119,39 +32,23 @@ const SplashScreen = ({ onFinish }) => {
           return 100;
         }
 
-        // Smooth granular increments of 1% (with occasional 2% or deliberate micro-pause)
-        // 100 steps * ~35ms = ~3.5 seconds of smooth, cinematic loading
-        let step = 1;
+        // Granular increments
         const rand = Math.random();
-        if (rand < 0.22) {
-          step = 0; // brief organic pause on a tick
-        } else if (rand > 0.85 && prev < 85) {
-          step = 2; // small burst
-        }
-
-        const next = Math.min(100, prev + step);
-
-        if (next < 25) setStatusText('BOOTING CORE ENVIRONMENT');
-        else if (next < 50) setStatusText('COMPILING 3D SHADERS & RUNTIMES');
-        else if (next < 75) setStatusText('CALIBRATING TELEMETRY SENSORS');
-        else if (next < 95) setStatusText('FINALIZING INTERFACES');
-        else if (next < 100) setStatusText('SYNCHRONIZING ASSETS');
-        else setStatusText('SYSTEM ONLINE // READY');
-
-        return next;
+        const step = rand < 0.25 ? 1 : rand > 0.85 ? 3 : 2;
+        return Math.min(100, prev + step);
       });
-    }, 32);
+    }, 28);
 
     return () => clearInterval(interval);
   }, []);
 
-  // When reaching 100%, hold for 650ms so user can enjoy the 100% completion state
+  // When reaching 100%, hold briefly for seamless transition
   useEffect(() => {
     if (progress === 100) {
       const timer = setTimeout(() => {
         setIsDone(true);
         if (onFinish) onFinish();
-      }, 650);
+      }, 350);
       return () => clearTimeout(timer);
     }
   }, [progress, onFinish]);
@@ -160,62 +57,61 @@ const SplashScreen = ({ onFinish }) => {
     <AnimatePresence>
       {!isDone && (
         <motion.div
-          className="splash-screen-overlay"
+          className="obsidian-splash-overlay"
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            y: -30,
-            transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
+            y: -16,
+            transition: { duration: 3, ease: [0.16, 1, 0.3, 1] },
           }}
         >
-          {/* Top Editorial Meta Bar */}
-          <div className="splash-top-meta">
-            <div className="splash-brand">
-              <span className="splash-brand-dot" />
-              <span className="splash-brand-text">ABHAY M // PORTFOLIO 2.0</span>
-            </div>
-            <div className="splash-status-pill">
-              <span>{statusText}</span>
-            </div>
+          {/* Ambient Obsidian Radial Glow */}
+          <div className="obsidian-ambient-glow" />
+
+          {/* Top Subtle Meta */}
+          <div className="obsidian-meta-top">
+            <span className="obsidian-meta-tag">ABHAY M.</span>
+            <span className="obsidian-meta-node">VOL. 26 // PORTFOLIO</span>
           </div>
 
-          {/* Center 3D Canvas Stage */}
-          <div className="splash-3d-stage">
-            <Canvas
-              camera={{ position: [0, 0, 5.5], fov: 45 }}
-              gl={{ antialias: true, alpha: true }}
-              dpr={[1, 1.5]}
-              style={{ pointerEvents: 'none' }}
+          {/* Center AK. Monogram & Precision Loading HUD */}
+          <div className="obsidian-center-cluster">
+            {/* AK Logo Container with Subtle Glow */}
+            <motion.div
+              className="obsidian-logo-stage"
+              initial={{ opacity: 0, scale: 0.94 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-              <ambientLight intensity={0.7} />
-              <pointLight position={[10, 10, 10]} intensity={1.5} color="#FFFFFF" />
-              <pointLight position={[-8, -5, -5]} intensity={0.8} color="#2563EB" />
-              <directionalLight position={[0, 6, 4]} intensity={1.0} color="#FFD600" />
+              <AkMonogram />
+            </motion.div>
 
-              <SplineLoadingCore progress={progress} mousePos={mousePos} />
-            </Canvas>
+            {/* Precision Hairline Progress Bar */}
+            <div className="obsidian-meter-wrapper">
+              <div className="obsidian-rail">
+                <motion.div
+                  className="obsidian-rail-fill"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+
+              {/* Minimal Numeric Percentage */}
+              <div className="obsidian-counter-row">
+                <span className="obsidian-counter-label">INITIALIZING</span>
+                <span className="obsidian-counter-value">
+                  {progress < 10 ? `0${progress}` : progress}%
+                </span>
+              </div>
+            </div>
           </div>
 
-          {/* Bottom Minimal Percentage & Progress Meter */}
-          <div className="splash-bottom-deck">
-            <div className="splash-number-row">
-              <span className="splash-prefix">LOADING ASSETS</span>
-              <span className="splash-counter">{progress}%</span>
-            </div>
-
-            {/* Calibrated Progress Rail */}
-            <div className="splash-progress-track">
-              <motion.div
-                className="splash-progress-fill"
-                style={{ width: `${progress}%` }}
-                transition={{ ease: 'easeOut', duration: 0.1 }}
-              />
-            </div>
-
-            <div className="splash-sub-info">
-              <span>ECE GRADUATE // GATE ASPIRANT // CREATIVE TECH</span>
-              <span>COET THALASSERY</span>
-            </div>
+          {/* Bottom Precision Footnote */}
+          <div className="obsidian-meta-bottom">
+            <span>ECE // EMBEDDED & HARDWARE // GATE</span>
+            <span className="obsidian-live-pill">
+              <span className="obsidian-pulse-pip" />
+              ONLINE
+            </span>
           </div>
         </motion.div>
       )}
